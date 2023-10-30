@@ -2,25 +2,55 @@ import { useState } from "react";
 
 const ToDoList = () => {
   const [taskList, setTaskList] = useState(["a", "b"]);
+  const [input, setInput] = useState("");
+  const [message, setMessage] = useState("Get started");
 
-  const taskListUpdater = (e) => {
-    setTaskList(...taskList, e.target.value);
+  const inputUpdater = (e) => {
+    setInput(e.target.value);
+  };
+
+  const taskListUpdater = () => {
+    if (input !== "") {
+      setTaskList([...taskList, input]);
+      setInput("");
+      setMessage("Task added");
+    } else {
+      setMessage("Error");
+    }
+  };
+
+  const clear = () => {
+    setTaskList([]);
+    setInput("");
   };
 
   return (
     <div>
-      <h2>To do list</h2>
-      <input type="text" id="updater"></input>
-      <button onClick={taskListUpdater} className="btn">
-        Add task
-      </button>
-      <button className="btn">Clear</button>
-      <p>{}</p>
-      <ol>
-        {taskList.map((task) => (
-          <li>{task}</li>
-        ))}
-      </ol>
+      <div id="header-wrap">
+        <h2>To do list</h2>
+        <h3>{message}</h3>
+
+        <input
+          onChange={inputUpdater}
+          placeholder="Add new task!"
+          type="text"
+        ></input>
+        <p>{input}</p>
+        <button onClick={taskListUpdater} className="btn">
+          Add task
+        </button>
+        <button onClick={clear} className="btn">
+          Clear
+        </button>
+      </div>
+      <div id="list-wrap">
+        <ol>
+          {taskList.map((task) => (
+            <li>{task}</li>
+          ))}
+        </ol>
+      </div>
+      <div id="filter-wrap"></div>
     </div>
   );
 };
