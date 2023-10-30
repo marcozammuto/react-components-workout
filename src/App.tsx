@@ -3,8 +3,7 @@ import "./App.css";
 function App() {
   return (
     <>
-      <p>Prove varie
-      </p>
+      <p>Prove varie</p>
     </>
   );
 }
