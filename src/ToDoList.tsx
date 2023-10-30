@@ -8,11 +8,13 @@ const ToDoList = () => {
   const inputUpdater = (event) => {
     setInput(event.target.value);
   };
+
+  const taskListUpdater = () => {
     if (input !== "") {
       const newTask = {
-      task: input,
-      state: 0,
-    };
+        task: input,
+        state: 0,
+      };
       setTaskList([...taskList, newTask]);
       setInput("");
       setMessage("Task added");
@@ -21,7 +23,7 @@ const ToDoList = () => {
     }
   };
 
-  const clear = () => {
+  const clearAll = () => {
     setTaskList([]);
     setInput("");
   };
@@ -40,7 +42,7 @@ const ToDoList = () => {
         <button onClick={taskListUpdater} className="btn">
           Add task
         </button>
-        <button onClick={clear} className="btn">
+        <button onClick={clearAll} className="btn">
           Clear
         </button>
       </div>
