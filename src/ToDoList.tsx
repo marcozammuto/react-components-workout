@@ -11,11 +11,7 @@ const ToDoList = () => {
 
   const taskListUpdater = () => {
     if (input !== "") {
-      const newTask = {
-        task: input,
-        state: 0,
-      };
-      setTaskList([...taskList, newTask]);
+      setTaskList([...taskList, input]);
       setInput("");
       setMessage("Task added");
     } else {
