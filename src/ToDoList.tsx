@@ -193,9 +193,9 @@ const ToDoList = () => {
 
 export default ToDoList;
 
-//  sortDone;
-//  sortWorkInProgress;
-
-// { colorDescription: "To do", colorCode: "#ff0000" },
-// { colorDescription: "Doing", colorCode: "#ffff00" },
-// { colorDescription: "Done", colorCode: "#00ff00" },
+//  things to do:
+// delete connections with status
+// make filter lists more responsive:
+// update the thing with useEffect (maybe)
+// choose between having a red/yellow/green/no list
+// start with style
