@@ -1,6 +1,7 @@
 import "./App.css";
-import { useState } from "react";
 import ToDoList from "./ToDoList";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 function App() {
   return (
