@@ -18,6 +18,7 @@ const ToDoList = () => {
 
   useEffect(() => {
     console.log(taskList);
+    sortList();
   }, [taskList]);
 
   const handleChange = (e) => {
@@ -135,7 +136,6 @@ const ToDoList = () => {
             {/* delete button */}
             <button
               onClick={() => {
-                sortList();
                 let updatedList = taskList.filter((_, idx) => index !== idx);
                 setTaskList(updatedList);
               }}
@@ -157,34 +157,29 @@ const ToDoList = () => {
           padding: "50px",
         }}
       >
-        <div>
-          <div className="sortedList">
-            <h6>To do:</h6>
-            <button onClick={sortList}>Sort: to do</button>
-            <ol>
-              {notDoneList.map((task) => (
-                <li>{task.description}</li>
-              ))}
-            </ol>
-          </div>
-          <div className="sortedList">
-            <h6>Work in progress:</h6>
-            <button onClick={sortList}>Sort: in progress</button>
-            <ol>
-              {workInProgressList.map((task) => (
-                <li>{task.description}</li>
-              ))}
-            </ol>
-          </div>
-          <div className="sortedList">
-            <h6>Done:</h6>
-            <button onClick={sortList}>Sort: in progress</button>
-            <ol>
-              {doneList.map((task) => (
-                <li>{task.description}</li>
-              ))}
-            </ol>
-          </div>
+        <div className="sortedList">
+          <h6>To do:</h6>
+          <ul>
+            {notDoneList.map((task) => (
+              <li>{task.description}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="sortedList">
+          <h6>Work in progress:</h6>
+          <ul>
+            {workInProgressList.map((task) => (
+              <li>{task.description}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="sortedList">
+          <h6>Done:</h6>
+          <ol>
+            {doneList.map((task) => (
+              <li>{task.description}</li>
+            ))}
+          </ol>
         </div>
       </div>
     </div>
