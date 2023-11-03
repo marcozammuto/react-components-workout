@@ -74,14 +74,10 @@ const ToDoList = () => {
     setNotDoneList([]);
     setWorkInProgressList([]);
     setDoneList([]);
-    setTimeout("");
-    console.clear();
   };
 
   return (
-    <div>
-      <h2>To do list</h2>
-      {/* Main wrap */}
+    <>
       <div
         id="command-wrap"
         style={{
@@ -91,6 +87,7 @@ const ToDoList = () => {
           gap: "10px",
         }}
       >
+        <h2>To do list</h2>
         {/* Input */}
         <input onChange={handleChange} value={input}></input>
 
@@ -108,51 +105,53 @@ const ToDoList = () => {
           <i className="fa-solid fa-arrows-rotate"></i>{" "}
         </button>
       </div>
-      <h5>{message}</h5>
-      <ol>
-        {/* Main list */}
-        {taskList.map((task, index) => (
-          <div
-            style={{
-              textAlign: "center",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-            }}
-            key={`${index}KeyDiv`}
-          >
-            {/* Item */}
-            <li key={`${index}KeyItem`}>{task.description}</li>
 
-            {/* Color button */}
-            <button
-              key={`${index}KeyStatusButton`}
-              onClick={() => {
-                let currentIndex = status.indexOf(task.progress.colorCode);
-                let newIndex = (currentIndex + 1) % 3;
-                let updatedTaskList = [...taskList];
-                updatedTaskList[index].progress.colorCode = status[newIndex];
-                setTaskList(updatedTaskList);
+      <div id="main-list-wrap">
+        <ol>
+          {/* Main list */}
+          {taskList.map((task, index) => (
+            <div
+              style={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "10px",
               }}
-              style={{ background: task.progress.colorCode, color: "black" }}
-            ></button>
-
-            {/* delete button */}
-            <button
-              key={`${index}KeyDeleteButton`}
-              onClick={() => {
-                let updatedList = taskList.filter((_, idx) => index !== idx);
-                setTaskList(updatedList);
-              }}
+              key={`${index}KeyDiv`}
             >
-              <i className="fa-solid fa-trash"></i>
-            </button>
+              {/* Item */}
+              <li key={`${index}KeyItem`}>{task.description}</li>
 
-            {/* task ends */}
-          </div>
-        ))}
-      </ol>
+              {/* Color button */}
+              <button
+                key={`${index}KeyStatusButton`}
+                onClick={() => {
+                  let currentIndex = status.indexOf(task.progress.colorCode);
+                  let newIndex = (currentIndex + 1) % 3;
+                  let updatedTaskList = [...taskList];
+                  updatedTaskList[index].progress.colorCode = status[newIndex];
+                  setTaskList(updatedTaskList);
+                }}
+                style={{ background: task.progress.colorCode, color: "black" }}
+              ></button>
+
+              {/* delete button */}
+              <button
+                key={`${index}KeyDeleteButton`}
+                onClick={() => {
+                  let updatedList = taskList.filter((_, idx) => index !== idx);
+                  setTaskList(updatedList);
+                }}
+              >
+                <i className="fa-solid fa-trash"></i>
+              </button>
+
+              {/* task ends */}
+            </div>
+          ))}
+        </ol>
+      </div>
 
       <div
         id="sorted-lists-wrap"
@@ -163,85 +162,52 @@ const ToDoList = () => {
           padding: "50px",
         }}
       >
-        <div className="sortedList">
-          <h6>To do:</h6>
-          <ol>
-            {notDoneList.map((task) => (
-              <li>{task.description}</li>
-            ))}
-          </ol>
+        <div id="sorted-list-wrap">
+          <div id="sorted-list-selector">
+            <select name="sortedList" id="filteredList">
+              <option value="filter">Filter</option>
+              <option value="toDo">To do</option>
+              <option value="workInProgress">Work in progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div id="sorted-list-results">
+            {showedList === "toDo" ? (
+              <div className="sortedList">
+                <ul>
+                  {notDoneList.map((task) => (
+                    <li>{task.description}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : showedList === "workInProgress" ? (
+              <div className="sortedList">
+                <ul>
+                  {workInProgressList.map((task) => (
+                    <li>{task.description}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : showedList === "done" ? (
+              <div className="sortedList">
+                <ul>
+                  {doneList.map((task) => (
+                    <li>{task.description}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
         </div>
-
-        <div className="sortedList">
-          <h6>Work in progress:</h6>
-          <ul>
-            {workInProgressList.map((task) => (
-              <li>{task.description}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="sortedList">
-          <h6>Done:</h6>
-          <ol>
-            {doneList.map((task) => (
-              <li>{task.description}</li>
-            ))}
-          </ol>
-        </div>
-
-        <form>
-          <select name="sortedList" id="filteredList">
-            <option value="filter">Filter</option>
-            <option value="toDo">To do</option>
-            <option value="workInProgress">Work in progress</option>
-            <option value="done">Done</option>
-          </select>
-
-          <li>
-            {() => {
-              switch (showedList) {
-                case "toDo":
-                  return (
-                    <div className="sortedList">
-                      <h6>To do:</h6>
-                      <ol>
-                        {notDoneList.map((task) => (
-                          <li>{task.description}</li>
-                        ))}
-                      </ol>
-                    </div>
-                  );
-                case "workInProgress":
-                  return (
-                    <div className="sortedList">
-                      <h6>Work in progress:</h6>
-                      <ol>
-                        {workInProgressList.map((task) => (
-                          <li>{task.description}</li>
-                        ))}
-                      </ol>
-                    </div>
-                  );
-                case "done":
-                  return (
-                    <div className="sortedList">
-                      <h6>Done:</h6>
-                      <ol>
-                        {doneList.map((task) => (
-                          <li>{task.description}</li>
-                        ))}
-                      </ol>
-                    </div>
-                  );
-                default:
-                  return <p>Filter</p>;
-              }
-            }}
-          </li>
-        </form>
       </div>
-    </div>
+    </>
   );
 };
 
 export default ToDoList;
+
+//tasks for tomorrow
+//set messages
+//refactor the "status" problem
+//fix the description problem
+//style a bit
