@@ -15,10 +15,16 @@ const ToDoList = () => {
   const [notDoneList, setNotDoneList] = useState([]);
   const [workInProgressList, setWorkInProgressList] = useState([]);
   const [doneList, setDoneList] = useState([]);
+  const [showedList, setShowedList] = useState("");
 
   useEffect(() => {
-    console.log(taskList);
     sortList();
+    const selectedList = document.getElementById("filteredList");
+    selectedList?.addEventListener("change", function () {
+      let selectedListValue = selectedList.value;
+      setShowedList(selectedListValue);
+      console.log(selectedListValue);
+    });
   }, [taskList]);
 
   const handleChange = (e) => {
@@ -68,6 +74,7 @@ const ToDoList = () => {
     setNotDoneList([]);
     setWorkInProgressList([]);
     setDoneList([]);
+    setTimeout("");
     console.clear();
   };
 
@@ -102,7 +109,6 @@ const ToDoList = () => {
         </button>
       </div>
       <h5>{message}</h5>
-
       <ol>
         {/* Main list */}
         {taskList.map((task, index) => (
@@ -114,20 +120,19 @@ const ToDoList = () => {
               justifyContent: "center",
               gap: "10px",
             }}
-            key={index}
+            key={`${index}KeyDiv`}
           >
             {/* Item */}
-            <li>{task.description}</li>
+            <li key={`${index}KeyItem`}>{task.description}</li>
 
             {/* Color button */}
             <button
+              key={`${index}KeyStatusButton`}
               onClick={() => {
                 let currentIndex = status.indexOf(task.progress.colorCode);
-                let newIndex = (currentIndex + 1) % status.length;
+                let newIndex = (currentIndex + 1) % 3;
                 let updatedTaskList = [...taskList];
                 updatedTaskList[index].progress.colorCode = status[newIndex];
-                updatedTaskList[index].progress.colorDescription =
-                  status[newIndex];
                 setTaskList(updatedTaskList);
               }}
               style={{ background: task.progress.colorCode, color: "black" }}
@@ -135,6 +140,7 @@ const ToDoList = () => {
 
             {/* delete button */}
             <button
+              key={`${index}KeyDeleteButton`}
               onClick={() => {
                 let updatedList = taskList.filter((_, idx) => index !== idx);
                 setTaskList(updatedList);
@@ -159,12 +165,13 @@ const ToDoList = () => {
       >
         <div className="sortedList">
           <h6>To do:</h6>
-          <ul>
+          <ol>
             {notDoneList.map((task) => (
               <li>{task.description}</li>
             ))}
-          </ul>
+          </ol>
         </div>
+
         <div className="sortedList">
           <h6>Work in progress:</h6>
           <ul>
@@ -181,16 +188,60 @@ const ToDoList = () => {
             ))}
           </ol>
         </div>
+
+        <form>
+          <select name="sortedList" id="filteredList">
+            <option value="filter">Filter</option>
+            <option value="toDo">To do</option>
+            <option value="workInProgress">Work in progress</option>
+            <option value="done">Done</option>
+          </select>
+
+          <li>
+            {() => {
+              switch (showedList) {
+                case "toDo":
+                  return (
+                    <div className="sortedList">
+                      <h6>To do:</h6>
+                      <ol>
+                        {notDoneList.map((task) => (
+                          <li>{task.description}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  );
+                case "workInProgress":
+                  return (
+                    <div className="sortedList">
+                      <h6>Work in progress:</h6>
+                      <ol>
+                        {workInProgressList.map((task) => (
+                          <li>{task.description}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  );
+                case "done":
+                  return (
+                    <div className="sortedList">
+                      <h6>Done:</h6>
+                      <ol>
+                        {doneList.map((task) => (
+                          <li>{task.description}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  );
+                default:
+                  return <p>Filter</p>;
+              }
+            }}
+          </li>
+        </form>
       </div>
     </div>
   );
 };
 
 export default ToDoList;
-
-//  things to do:
-// delete connections with status
-// make filter lists more responsive:
-// update the thing with useEffect (maybe)
-// choose between having a red/yellow/green/no list
-// start with style
