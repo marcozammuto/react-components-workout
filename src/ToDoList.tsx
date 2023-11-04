@@ -76,6 +76,10 @@ const ToDoList = () => {
     setDoneList([]);
   };
 
+  document.addEventListener("keypress", (e) => {
+    e.key === "Enter" ? submitTask() : null;
+  });
+
   return (
     <>
       <div
@@ -106,53 +110,6 @@ const ToDoList = () => {
         </button>
       </div>
 
-      <div id="main-list-wrap">
-        <ol>
-          {/* Main list */}
-          {taskList.map((task, index) => (
-            <div
-              style={{
-                textAlign: "center",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px",
-              }}
-              key={`${index}KeyDiv`}
-            >
-              {/* Item */}
-              <li key={`${index}KeyItem`}>{task.description}</li>
-
-              {/* Color button */}
-              <button
-                key={`${index}KeyStatusButton`}
-                onClick={() => {
-                  let currentIndex = status.indexOf(task.progress.colorCode);
-                  let newIndex = (currentIndex + 1) % 3;
-                  let updatedTaskList = [...taskList];
-                  updatedTaskList[index].progress.colorCode = status[newIndex];
-                  setTaskList(updatedTaskList);
-                }}
-                style={{ background: task.progress.colorCode, color: "black" }}
-              ></button>
-
-              {/* delete button */}
-              <button
-                key={`${index}KeyDeleteButton`}
-                onClick={() => {
-                  let updatedList = taskList.filter((_, idx) => index !== idx);
-                  setTaskList(updatedList);
-                }}
-              >
-                <i className="fa-solid fa-trash"></i>
-              </button>
-
-              {/* task ends */}
-            </div>
-          ))}
-        </ol>
-      </div>
-
       <div
         id="sorted-lists-wrap"
         style={{
@@ -165,14 +122,67 @@ const ToDoList = () => {
         <div id="sorted-list-wrap">
           <div id="sorted-list-selector">
             <select name="sortedList" id="filteredList">
-              <option value="filter">Filter</option>
+              <option value="allTasks">Tasks:</option>
               <option value="toDo">To do</option>
               <option value="workInProgress">Work in progress</option>
               <option value="done">Done</option>
             </select>
           </div>
+
           <div id="sorted-list-results">
-            {showedList === "toDo" ? (
+            {showedList === "allTasks" ? (
+              <ul>
+                {taskList.map((task, index) => (
+                  <div
+                    style={{
+                      textAlign: "center",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "10px",
+                    }}
+                    key={`${index}KeyDiv`}
+                  >
+                    {/* Item */}
+                    <li key={`${index}KeyItem`}>{task.description}</li>
+
+                    {/* Color button */}
+                    <button
+                      key={`${index}KeyStatusButton`}
+                      onClick={() => {
+                        let currentIndex = status.indexOf(
+                          task.progress.colorCode
+                        );
+                        let newIndex = (currentIndex + 1) % 3;
+                        let updatedTaskList = [...taskList];
+                        updatedTaskList[index].progress.colorCode =
+                          status[newIndex];
+                        setTaskList(updatedTaskList);
+                      }}
+                      style={{
+                        background: task.progress.colorCode,
+                        color: "black",
+                      }}
+                    ></button>
+
+                    {/* delete button */}
+                    <button
+                      key={`${index}KeyDeleteButton`}
+                      onClick={() => {
+                        let updatedList = taskList.filter(
+                          (_, idx) => index !== idx
+                        );
+                        setTaskList(updatedList);
+                      }}
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </button>
+
+                    {/* task ends */}
+                  </div>
+                ))}
+              </ul>
+            ) : showedList === "toDo" ? (
               <div className="sortedList">
                 <ul>
                   {notDoneList.map((task) => (
@@ -208,6 +218,8 @@ export default ToDoList;
 
 //tasks for tomorrow
 //set messages
+//add Bootstrap
+//link CSS
 //refactor the "status" problem
 //fix the description problem
 //style a bit
