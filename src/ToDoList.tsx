@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 
 const ToDoList = () => {
   const status = ["#ff0000", "#ffff00", "#00ff00"];
@@ -15,7 +15,7 @@ const ToDoList = () => {
   const [notDoneList, setNotDoneList] = useState([]);
   const [workInProgressList, setWorkInProgressList] = useState([]);
   const [doneList, setDoneList] = useState([]);
-  const [showedList, setShowedList] = useState("");
+  const [showedList, setShowedList] = useState("allTasks");
 
   useEffect(() => {
     sortList();
@@ -27,7 +27,7 @@ const ToDoList = () => {
     });
   }, [taskList]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
     setInput(e.target.value);
   };
 
@@ -86,28 +86,35 @@ const ToDoList = () => {
         id="command-wrap"
         style={{
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           gap: "10px",
         }}
       >
         <h2>To do list</h2>
-        {/* Input */}
-        <input onChange={handleChange} value={input}></input>
 
-        {/* Submit button */}
-        <button
-          onClick={() => {
-            submitTask();
-          }}
-        >
-          <i className="fa-solid fa-plus"></i>
-        </button>
+        <section id="button-wrap" style={{ display: "flex" }}>
+          {/* Input */}
+          <input onChange={handleChange} value={input}></input>
 
-        {/* Clear button */}
-        <button onClick={clearAll}>
-          <i className="fa-solid fa-arrows-rotate"></i>{" "}
-        </button>
+          {/* Submit button */}
+          <button
+            onClick={() => {
+              submitTask();
+            }}
+          >
+            <i className="fa-solid fa-plus"></i>
+          </button>
+
+          {/* Clear button */}
+          <button onClick={clearAll}>
+            <i className="fa-solid fa-arrows-rotate"></i>{" "}
+          </button>
+        </section>
+
+        {/* {Message} */}
+        <h3>{message}</h3>
       </div>
 
       <div
@@ -119,7 +126,7 @@ const ToDoList = () => {
           padding: "50px",
         }}
       >
-        <div id="sorted-list-wrap">
+        <div id="sorted-items-wrap">
           <div id="sorted-list-selector">
             <select name="sortedList" id="filteredList">
               <option value="allTasks">Tasks:</option>
@@ -146,37 +153,57 @@ const ToDoList = () => {
                     {/* Item */}
                     <li key={`${index}KeyItem`}>{task.description}</li>
 
-                    {/* Color button */}
-                    <button
-                      key={`${index}KeyStatusButton`}
-                      onClick={() => {
-                        let currentIndex = status.indexOf(
-                          task.progress.colorCode
-                        );
-                        let newIndex = (currentIndex + 1) % 3;
-                        let updatedTaskList = [...taskList];
-                        updatedTaskList[index].progress.colorCode =
-                          status[newIndex];
-                        setTaskList(updatedTaskList);
-                      }}
-                      style={{
-                        background: task.progress.colorCode,
-                        color: "black",
-                      }}
-                    ></button>
-
-                    {/* delete button */}
-                    <button
-                      key={`${index}KeyDeleteButton`}
-                      onClick={() => {
-                        let updatedList = taskList.filter(
-                          (_, idx) => index !== idx
-                        );
-                        setTaskList(updatedList);
-                      }}
+                    <div
+                      style={{ display: "flex", gap: "5px" }}
+                      id="item-button-wrap"
                     >
-                      <i className="fa-solid fa-trash"></i>
-                    </button>
+                      {/* Color button */}
+                      <button
+                        key={`${index}KeyStatusButton`}
+                        onClick={() => {
+                          let currentIndex = status.indexOf(
+                            task.progress.colorCode
+                          );
+                          let newIndex = (currentIndex + 1) % 3;
+                          let updatedTaskList = [...taskList];
+                          updatedTaskList[index].progress.colorCode =
+                            status[newIndex];
+                          setTaskList(updatedTaskList);
+                        }}
+                        style={{
+                          background: task.progress.colorCode,
+                          color: "black",
+                        }}
+                      >
+                        <i className="fa-solid fa-bars-progress"></i>
+                      </button>
+
+                      {/* modify button */}
+                      <button
+                        key={`${index}KeyDeleteButton`}
+                        onClick={() => {
+                          let updatedList = taskList.filter(
+                            (_, idx) => index !== idx
+                          );
+                          setTaskList(updatedList);
+                        }}
+                      >
+                        <i className="fa-solid fa-pen-to-square"></i>
+                      </button>
+
+                      {/* delete button */}
+                      <button
+                        key={`${index}KeyDeleteButton`}
+                        onClick={() => {
+                          let updatedList = taskList.filter(
+                            (_, idx) => index !== idx
+                          );
+                          setTaskList(updatedList);
+                        }}
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </button>
+                    </div>
 
                     {/* task ends */}
                   </div>
@@ -216,10 +243,6 @@ const ToDoList = () => {
 
 export default ToDoList;
 
-//tasks for tomorrow
-//set messages
-//add Bootstrap
 //link CSS
 //refactor the "status" problem
 //fix the description problem
-//style a bit
