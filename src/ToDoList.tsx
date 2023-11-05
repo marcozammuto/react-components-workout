@@ -16,6 +16,8 @@ const ToDoList = () => {
   const [workInProgressList, setWorkInProgressList] = useState([]);
   const [doneList, setDoneList] = useState([]);
   const [showedList, setShowedList] = useState("allTasks");
+  const [modifiyMode, setModifiyMode] = useState(false);
+  const [taskToModify, setTaskToModify] = useState();
 
   useEffect(() => {
     sortList();
@@ -32,7 +34,7 @@ const ToDoList = () => {
   };
 
   const submitTask = () => {
-    if (input) {
+    if (input && !modifiyMode) {
       let updatedTaskStructure = {
         description: input,
         progress: {
@@ -43,8 +45,16 @@ const ToDoList = () => {
       setTaskList([...taskList, updatedTaskStructure]);
       setInput("");
       setMessage("List updated");
+      setModifiyMode(false);
+    } else if (input && modifiyMode) {
+      setMessage("entered");
+      setModifiyMode(false);
+      // setTaskList(taskList.replace(taskToModify, input))
+      console.log(taskList);
+      console.log(taskList);
     } else {
       setMessage("Error");
+      clearAll();
     }
   };
 
@@ -74,6 +84,7 @@ const ToDoList = () => {
     setNotDoneList([]);
     setWorkInProgressList([]);
     setDoneList([]);
+    setModifiyMode(false);
   };
 
   document.addEventListener("keypress", (e) => {
@@ -96,7 +107,7 @@ const ToDoList = () => {
 
         <section id="button-wrap" style={{ display: "flex" }}>
           {/* Input */}
-          <input onChange={handleChange} value={input}></input>
+          <input onChange={handleChange} id="input-field" value={input}></input>
 
           {/* Submit button */}
           <button
@@ -180,16 +191,27 @@ const ToDoList = () => {
 
                       {/* modify button */}
                       <button
-                        key={`${index}KeyDeleteButton`}
                         onClick={() => {
-                          let updatedList = taskList.filter(
-                            (_, idx) => index !== idx
-                          );
-                          setTaskList(updatedList);
+                          if (!modifiyMode) {
+                            setModifiyMode(true);
+                            setTaskToModify(task.description);
+                            setInput(task.description);
+                            document.getElementById("input-field")?.focus();
+                            console.log("a");
+                          } else {
+                            setModifiyMode(false);
+                            task.description = input;
+                            setInput("");
+                          }
                         }}
                       >
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
+                      <p>
+                        {modifiyMode
+                          ? `modifyMode : true`
+                          : `modifyMode : false`}
+                      </p>
 
                       {/* delete button */}
                       <button
@@ -199,6 +221,7 @@ const ToDoList = () => {
                             (_, idx) => index !== idx
                           );
                           setTaskList(updatedList);
+                          setInput("");
                         }}
                       >
                         <i className="fa-solid fa-trash"></i>
