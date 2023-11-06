@@ -47,10 +47,10 @@ const ToDoList = () => {
       setMessage("List updated");
       setModifiyMode(false);
     } else if (input && modifiyMode) {
+      setInput("")
       setMessage("entered");
       setModifiyMode(false);
-      // setTaskList(taskList.replace(taskToModify, input))
-      console.log(taskList);
+      document.getElementById("modify-button")?.click();      
       console.log(taskList);
     } else {
       setMessage("Error");
@@ -126,6 +126,7 @@ const ToDoList = () => {
 
         {/* {Message} */}
         <h3>{message}</h3>
+        <h3>{modifiyMode ? "modify : true" : "modify : false"}</h3>
       </div>
 
       <div
@@ -140,7 +141,7 @@ const ToDoList = () => {
         <div id="sorted-items-wrap">
           <div id="sorted-list-selector">
             <select name="sortedList" id="filteredList">
-              <option value="allTasks">Tasks:</option>
+              <option value="allTasks">All tasks</option>
               <option value="toDo">To do</option>
               <option value="workInProgress">Work in progress</option>
               <option value="done">Done</option>
@@ -191,6 +192,7 @@ const ToDoList = () => {
 
                       {/* modify button */}
                       <button
+                        id="modify-button"
                         onClick={() => {
                           if (!modifiyMode) {
                             setModifiyMode(true);
@@ -269,3 +271,5 @@ export default ToDoList;
 //link CSS
 //refactor the "status" problem
 //fix the description problem
+
+//dio esiste viva Bruxelles
