@@ -47,10 +47,10 @@ const ToDoList = () => {
       setMessage("List updated");
       setModifiyMode(false);
     } else if (input && modifiyMode) {
-      setInput("")
+      setInput("");
       setMessage("entered");
       setModifiyMode(false);
-      document.getElementById("modify-button")?.click();      
+      document.getElementById("modify-button")?.click();
       console.log(taskList);
     } else {
       setMessage("Error");
