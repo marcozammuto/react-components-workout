@@ -1,8 +1,6 @@
 import { useState, useEffect, SetStateAction } from "react";
 
 const ToDoList = () => {
-  const status = ["#ff0000", "#ffff00", "#00ff00"];
-
   const improvedStatus = [
     { colorDescription: "To do", colorCode: "#ff0000" },
     { colorDescription: "Doing", colorCode: "#ffff00" },
@@ -17,7 +15,7 @@ const ToDoList = () => {
   const [doneList, setDoneList] = useState([]);
   const [showedList, setShowedList] = useState("allTasks");
   const [modifiyMode, setModifiyMode] = useState(false);
-  const [taskToModify, setTaskToModify] = useState();
+  const [taskToModify, setTaskToModify] = useState("");
 
   useEffect(() => {
     sortList();
@@ -25,7 +23,6 @@ const ToDoList = () => {
     selectedList?.addEventListener("change", function () {
       let selectedListValue = selectedList.value;
       setShowedList(selectedListValue);
-      console.log(selectedListValue);
     });
   }, [taskList]);
 
@@ -34,7 +31,7 @@ const ToDoList = () => {
   };
 
   const submitTask = () => {
-    if (input && !modifiyMode) {
+    if (input) {
       let updatedTaskStructure = {
         description: input,
         progress: {
@@ -42,19 +39,20 @@ const ToDoList = () => {
           colorCode: improvedStatus[0].colorCode,
         },
       };
-      setTaskList([...taskList, updatedTaskStructure]);
-      setInput("");
-      setMessage("List updated");
-      setModifiyMode(false);
-    } else if (input && modifiyMode) {
-      setInput("");
-      setMessage("entered");
-      setModifiyMode(false);
-      document.getElementById("modify-button")?.click();
-      console.log(taskList);
+      if (!modifiyMode) {
+        setTaskList([...taskList, updatedTaskStructure]);
+        setInput("");
+        setMessage("List updated");
+        setModifiyMode(false);
+      } else if (modifiyMode) {
+        setInput("");
+        setMessage("Task updated");
+        setModifiyMode(false);
+        setTaskToModify("");
+        document.getElementById("modify-button")?.click();
+      }
     } else {
       setMessage("Error");
-      clearAll();
     }
   };
 
@@ -74,7 +72,6 @@ const ToDoList = () => {
     setNotDoneList(sortedListToDo);
     setDoneList(sortedListDone);
     setWorkInProgressList(sortedListInProgress);
-    setMessage("Sorted list");
   };
 
   const clearAll = () => {
@@ -86,10 +83,6 @@ const ToDoList = () => {
     setDoneList([]);
     setModifiyMode(false);
   };
-
-  document.addEventListener("keypress", (e) => {
-    e.key === "Enter" ? submitTask() : null;
-  });
 
   return (
     <>
@@ -111,6 +104,7 @@ const ToDoList = () => {
 
           {/* Submit button */}
           <button
+            id="submit-button"
             onClick={() => {
               submitTask();
             }}
@@ -126,7 +120,6 @@ const ToDoList = () => {
 
         {/* {Message} */}
         <h3>{message}</h3>
-        <h3>{modifiyMode ? "modify : true" : "modify : false"}</h3>
       </div>
 
       <div
@@ -140,11 +133,28 @@ const ToDoList = () => {
       >
         <div id="sorted-items-wrap">
           <div id="sorted-list-selector">
-            <select name="sortedList" id="filteredList">
-              <option value="allTasks">All tasks</option>
-              <option value="toDo">To do</option>
-              <option value="workInProgress">Work in progress</option>
-              <option value="done">Done</option>
+            <select
+              onClick={() => {
+                setMessage("List filtered");
+              }}
+              name="sortedList"
+              id="filteredList"
+            >
+              <option value="allTasks" disabled={taskList.length === 0}>
+                All tasks
+              </option>
+              <option value="toDo" disabled={notDoneList.length === 0}>
+                To do
+              </option>
+              <option
+                value="workInProgress"
+                disabled={workInProgressList.length === 0}
+              >
+                Work in progress
+              </option>
+              <option value="done" disabled={doneList.length === 0}>
+                Done
+              </option>
             </select>
           </div>
 
@@ -160,10 +170,10 @@ const ToDoList = () => {
                       justifyContent: "center",
                       gap: "10px",
                     }}
-                    key={`${index}KeyDiv`}
+                    key={`${index}div`}
                   >
                     {/* Item */}
-                    <li key={`${index}KeyItem`}>{task.description}</li>
+                    <li key={`${index}item`}>{task.description}</li>
 
                     <div
                       style={{ display: "flex", gap: "5px" }}
@@ -171,16 +181,21 @@ const ToDoList = () => {
                     >
                       {/* Color button */}
                       <button
-                        key={`${index}KeyStatusButton`}
+                        key={`${index}status-button`}
                         onClick={() => {
-                          let currentIndex = status.indexOf(
-                            task.progress.colorCode
+                          let currentIndex = improvedStatus.findIndex(
+                            (item) => item.colorCode === task.progress.colorCode
                           );
                           let newIndex = (currentIndex + 1) % 3;
                           let updatedTaskList = [...taskList];
+
+                          updatedTaskList[index].progress.colorDescription =
+                            improvedStatus[newIndex].colorDescription;
+
                           updatedTaskList[index].progress.colorCode =
-                            status[newIndex];
+                            improvedStatus[newIndex].colorCode;
                           setTaskList(updatedTaskList);
+                          console.log(task);
                         }}
                         style={{
                           background: task.progress.colorCode,
@@ -192,6 +207,7 @@ const ToDoList = () => {
 
                       {/* modify button */}
                       <button
+                        key={`${index}modify-button`}
                         id="modify-button"
                         onClick={() => {
                           if (!modifiyMode) {
@@ -199,25 +215,20 @@ const ToDoList = () => {
                             setTaskToModify(task.description);
                             setInput(task.description);
                             document.getElementById("input-field")?.focus();
-                            console.log("a");
                           } else {
                             setModifiyMode(false);
                             task.description = input;
                             setInput("");
+                            setTaskToModify("");
                           }
                         }}
                       >
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
-                      <p>
-                        {modifiyMode
-                          ? `modifyMode : true`
-                          : `modifyMode : false`}
-                      </p>
 
                       {/* delete button */}
                       <button
-                        key={`${index}KeyDeleteButton`}
+                        key={`${index}delete-button`}
                         onClick={() => {
                           let updatedList = taskList.filter(
                             (_, idx) => index !== idx
@@ -238,7 +249,29 @@ const ToDoList = () => {
               <div className="sortedList">
                 <ul>
                   {notDoneList.map((task) => (
-                    <li>{task.description}</li>
+                    <div>
+                      <li>{task.description}</li>
+
+                      <div
+                        style={{ display: "flex", gap: "5px" }}
+                        id="item-button-wrap"
+                      >
+                        {/* Color button */}
+                        <button>
+                          <i className="fa-solid fa-bars-progress"></i>
+                        </button>
+
+                        {/* modify button */}
+                        <button>
+                          <i className="fa-solid fa-pen-to-square"></i>
+                        </button>
+
+                        {/* delete button */}
+                        <button>
+                          <i className="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
                   ))}
                 </ul>
               </div>
@@ -246,7 +279,29 @@ const ToDoList = () => {
               <div className="sortedList">
                 <ul>
                   {workInProgressList.map((task) => (
-                    <li>{task.description}</li>
+                    <div>
+                      <li>{task.description}</li>
+
+                      <div
+                        style={{ display: "flex", gap: "5px" }}
+                        id="item-button-wrap"
+                      >
+                        {/* Color button */}
+                        <button>
+                          <i className="fa-solid fa-bars-progress"></i>
+                        </button>
+
+                        {/* modify button */}
+                        <button>
+                          <i className="fa-solid fa-pen-to-square"></i>
+                        </button>
+
+                        {/* delete button */}
+                        <button>
+                          <i className="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
                   ))}
                 </ul>
               </div>
@@ -254,7 +309,29 @@ const ToDoList = () => {
               <div className="sortedList">
                 <ul>
                   {doneList.map((task) => (
-                    <li>{task.description}</li>
+                    <div>
+                      <li>{task.description}</li>
+
+                      <div
+                        style={{ display: "flex", gap: "5px" }}
+                        id="item-button-wrap"
+                      >
+                        {/* Color button */}
+                        <button>
+                          <i className="fa-solid fa-bars-progress"></i>
+                        </button>
+
+                        {/* modify button */}
+                        <button>
+                          <i className="fa-solid fa-pen-to-square"></i>
+                        </button>
+
+                        {/* delete button */}
+                        <button>
+                          <i className="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
                   ))}
                 </ul>
               </div>
@@ -269,7 +346,4 @@ const ToDoList = () => {
 export default ToDoList;
 
 //link CSS
-//refactor the "status" problem
-//fix the description problem
-
 //dio esiste viva Bruxelles
