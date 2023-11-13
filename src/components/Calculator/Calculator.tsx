@@ -1,14 +1,12 @@
-import React from "react";
-import { useState } from "react";
-import calculator from "./Calculator.css";
+import React, { useState } from "react";
+import "./Calculator.css";
 
 const Calculator = () => {
-  const [input, setInput] = useState(0);
-  const [output, setOutput] = useState(0);
-  const [currentNumber, setCurrentNumber] = useState(0);
+  const [input, setInput] = useState("0");
+  const [output, setOutput] = useState("0");
+  const [currentNumber, setCurrentNumber] = useState("0");
   const [decimalClicked, setDecimalClicked] = useState(false);
   const [equalsClicked, setEqualsClicked] = useState(false);
-  const [operatorClicked, setOperatorClicked] = useState(false);
   const [rightBegin, setRightBegin] = useState(false);
   const [zeroReset, setZeroReset] = useState(false);
   const [sameSymbolClicked, setSameSymbolClicked] = useState("");
@@ -19,7 +17,7 @@ const Calculator = () => {
       console.log("Zero error");
     } else {
       let arr = [input];
-      if (arr[0] === 0) {
+      if (arr[0] === "0") {
         arr.shift();
       }
       arr.push(num);
@@ -64,6 +62,7 @@ const Calculator = () => {
       }
     }
   };
+
   const decimal = () => {
     if (decimalClicked && sameSymbolClicked) {
       setInput(`${input}.`);
@@ -71,10 +70,10 @@ const Calculator = () => {
       setCurrentNumber(`${currentNumber}.`);
       setDecimalClicked(true);
       setZeroReset(false);
-    }
-    if (equalsClicked) {
-      setInput(0 + ".");
-      setOutput(0 + "."), setCurrentNumber(0 + ".");
+    } else if (equalsClicked) {
+      setInput("0.");
+      setOutput("0.");
+      setCurrentNumber("0.");
       setDecimalClicked(true);
       setZeroReset(false);
     } else {
@@ -109,9 +108,9 @@ const Calculator = () => {
   };
 
   const clear = () => {
-    setInput(0);
-    setOutput(0);
-    setCurrentNumber(0);
+    setInput("0");
+    setOutput("0");
+    setCurrentNumber("0");
     setDecimalClicked(false);
     setEqualsClicked(false);
     setOperatorClicked(false);
@@ -159,22 +158,18 @@ const Calculator = () => {
 
     const zeroCommaRegex = /^0\./;
     if (pointFilter.match(zeroCommaRegex)) {
-      let result = `0${pointFilter}`;
-      setState({
-        input: result,
-      });
+      result = `0${pointFilter}`;
+      setInput(result);
     }
 
-    setState({
-      input: `${pointFilter}=${result}`,
-      output: result,
-      currentNumber: result,
-      decimalClicked: true,
-      rightBegin: true,
-      zeroReset: true,
-      sameSymbolClicked: "",
-      equalsClicked: true,
-    });
+    setInput(`${pointFilter}=${result}`);
+    setOutput(result);
+    setCurrentNumber(result);
+    setDecimalClicked(true);
+    setRightBegin(true);
+    setZeroReset(true);
+    setSameSymbolClicked("");
+    setEqualsClicked(true);
   };
 
   return (
@@ -184,22 +179,22 @@ const Calculator = () => {
         <p id="display">{output}</p>
       </div>
       <div id="keyboard">
-        <button id="clear" className="jumbo" onClick={() => clear()}>
+        <button id="clear" className="jumbo" onClick={clear}>
           AC
         </button>
-        <button id="decimal" className="operator" onClick={() => decimal()}>
+        <button id="decimal" className="operator" onClick={decimal}>
           .
         </button>
         <button id="add" className="operator" onClick={() => addOperator("+")}>
           +
         </button>
-        <button id="seven" className="unit">
+        <button id="seven" className="unit" onClick={() => addNum("7")}>
           7
         </button>
-        <button id="eight" className="unit">
+        <button id="eight" className="unit" onClick={() => addNum("8")}>
           8
         </button>
-        <button id="nine" className="unit">
+        <button id="nine" className="unit" onClick={() => addNum("9")}>
           9
         </button>
         <button
@@ -209,7 +204,7 @@ const Calculator = () => {
         >
           -
         </button>
-        <button id="four" className="unit" onClick={() => addNum(4)}>
+        <button id="four" className="unit" onClick={() => addNum("4")}>
           4
         </button>
         <button id="five" className="unit" onClick={() => addNum(5)}>
