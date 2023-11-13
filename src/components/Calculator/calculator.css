@@ -1,0 +1,122 @@
+:root {
+  --background-color: #f0f0f0;
+  --black-color: #1a1a1a;
+  --green-color: #1e8449;
+  --yellow-color: #fbc531;
+  --ac-color: #e74c3c;
+  --operator-color: #34495e;
+  --unit-color: #2c3e50;
+  --equal-color: #2980b9;
+}
+
+* {
+  font-size: 1.08rem;
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+#root {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* #1: general container */
+
+#calculator {
+  background-color: black;
+  border: 10px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+}
+
+/* display */
+#display-wrap {
+  background-color: var(--black-color);
+}
+
+#display,
+#input {
+  padding-right: 20px;
+  text-align: right;
+}
+
+#input {
+  color: orange;
+  font-size: 24px;
+}
+
+#display {
+  font-size: 38px;
+  color: white;
+}
+
+/* keyboard */
+
+button {
+  color: white;
+}
+
+/* numbers style */
+
+.unit {
+  background-color: var(--unit-color);
+}
+
+.unit:hover,
+.operator:hover {
+  color: orange;
+  outline: 0.05em solid grey;
+  z-index: 3;
+}
+
+.unit,
+.operator {
+  width: 80px;
+  height: 65px;
+}
+
+#decimal {
+  background-color: var(--yellow-color);
+}
+
+/* big buttons style */
+
+#equals {
+  background-color: var(--equal-color);
+}
+
+#clear {
+  background-color: var(--ac-color);
+}
+
+.jumbo {
+  width: 160px;
+  height: 65px;
+}
+
+.jumbo:hover,
+#decimal:hover {
+  color: black;
+}
+
+/* operator style */
+
+.operator {
+  background-color: var(--operator-color);
+}
+
+#author {
+  background-color: var(--green-color);
+}
+
+#author-link {
+  font-size: 15px;
+  text-align: right;
+}
