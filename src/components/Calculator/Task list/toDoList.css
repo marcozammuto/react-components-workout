@@ -1,0 +1,8 @@
+* {
+  font-size: 1.2rem;
+  box-sizing: border-box;
+}
+
+#command-wrap {
+  background-color: black;
+}

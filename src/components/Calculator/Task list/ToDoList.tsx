@@ -1,4 +1,5 @@
 import { useState, useEffect, SetStateAction } from "react";
+import toDoList from "./toDoList.module.css";
 
 const ToDoList = () => {
   const improvedStatus = [
@@ -14,7 +15,7 @@ const ToDoList = () => {
   const [workInProgressList, setWorkInProgressList] = useState([]);
   const [doneList, setDoneList] = useState([]);
   const [showedList, setShowedList] = useState("allTasks");
-  const [modifiyMode, setModifiyMode] = useState(false);
+  const [modifyMode, setModifyMode] = useState(false);
   const [taskToModify, setTaskToModify] = useState("");
 
   useEffect(() => {
@@ -39,15 +40,15 @@ const ToDoList = () => {
           colorCode: improvedStatus[0].colorCode,
         },
       };
-      if (!modifiyMode) {
+      if (!modifyMode) {
         setTaskList([...taskList, updatedTaskStructure]);
         setInput("");
         setMessage("List updated");
-        setModifiyMode(false);
-      } else if (modifiyMode) {
+        setModifyMode(false);
+      } else if (modifyMode) {
         setInput("");
         setMessage("Task updated");
-        setModifiyMode(false);
+        setModifyMode(false);
         setTaskToModify("");
         document.getElementById("modify-button")?.click();
       }
@@ -81,7 +82,7 @@ const ToDoList = () => {
     setNotDoneList([]);
     setWorkInProgressList([]);
     setDoneList([]);
-    setModifiyMode(false);
+    setModifyMode(false);
   };
 
   return (
@@ -96,8 +97,6 @@ const ToDoList = () => {
           gap: "10px",
         }}
       >
-        <h2>To do list</h2>
-
         <section id="button-wrap" style={{ display: "flex" }}>
           {/* Input */}
           <input onChange={handleChange} id="input-field" value={input}></input>
@@ -117,9 +116,7 @@ const ToDoList = () => {
             <i className="fa-solid fa-arrows-rotate"></i>{" "}
           </button>
         </section>
-
-        {/* {Message} */}
-        <h3>{message}</h3>
+        {/* {Message} */}{" "}
       </div>
 
       <div
@@ -208,13 +205,13 @@ const ToDoList = () => {
                         key={`${index}modify-button`}
                         id="modify-button"
                         onClick={() => {
-                          if (!modifiyMode) {
-                            setModifiyMode(true);
+                          if (!modifyMode) {
+                            setModifyMode(true);
                             setTaskToModify(task.description);
                             setInput(task.description);
                             document.getElementById("input-field")?.focus();
                           } else {
-                            setModifiyMode(false);
+                            setModifyMode(false);
                             task.description = input;
                             setInput("");
                             setTaskToModify("");
@@ -286,13 +283,13 @@ const ToDoList = () => {
                           key={`${index}modify-button`}
                           id="modify-button"
                           onClick={() => {
-                            if (!modifiyMode) {
-                              setModifiyMode(true);
+                            if (!modifyMode) {
+                              setModifyMode(true);
                               setTaskToModify(task.description);
                               setInput(task.description);
                               document.getElementById("input-field")?.focus();
                             } else {
-                              setModifiyMode(false);
+                              setModifyMode(false);
                               task.description = input;
                               setInput("");
                               setTaskToModify("");
@@ -363,13 +360,13 @@ const ToDoList = () => {
                           key={`${index}modify-button`}
                           id="modify-button"
                           onClick={() => {
-                            if (!modifiyMode) {
-                              setModifiyMode(true);
+                            if (!modifyMode) {
+                              setModifyMode(true);
                               setTaskToModify(task.description);
                               setInput(task.description);
                               document.getElementById("input-field")?.focus();
                             } else {
-                              setModifiyMode(false);
+                              setModifyMode(false);
                               task.description = input;
                               setInput("");
                               setTaskToModify("");
@@ -440,13 +437,13 @@ const ToDoList = () => {
                           key={`${index}modify-button`}
                           id="modify-button"
                           onClick={() => {
-                            if (!modifiyMode) {
-                              setModifiyMode(true);
+                            if (!modifyMode) {
+                              setModifyMode(true);
                               setTaskToModify(task.description);
                               setInput(task.description);
                               document.getElementById("input-field")?.focus();
                             } else {
-                              setModifiyMode(false);
+                              setModifyMode(false);
                               task.description = input;
                               setInput("");
                               setTaskToModify("");
@@ -476,6 +473,13 @@ const ToDoList = () => {
               </div>
             ) : null}
           </div>
+          {taskList.length === 0 ? (
+            <p>No tasks left</p>
+          ) : taskList.length === 1 ? (
+            <p>1 task left</p>
+          ) : (
+            <p>{taskList.length} tasks left </p>
+          )}
         </div>
       </div>
     </>
@@ -483,6 +487,3 @@ const ToDoList = () => {
 };
 
 export default ToDoList;
-
-//link CSS
-//dio esiste viva Bruxelles
