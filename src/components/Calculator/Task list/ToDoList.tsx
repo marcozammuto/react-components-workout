@@ -1,5 +1,5 @@
 import { useState, useEffect, SetStateAction } from "react";
-import toDoList from "./toDoList.module.css";
+import "./toDoList.css";
 
 const ToDoList = () => {
   const improvedStatus = [
@@ -86,22 +86,13 @@ const ToDoList = () => {
   };
 
   return (
-    <>
-      <div
-        id="command-wrap"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "10px",
-        }}
-      >
-        <section id="button-wrap" style={{ display: "flex" }}>
-          {/* Input */}
+    <div id="wrap">
+      <h2 id="title">To do list</h2>
+      <div id="command-wrap">
+        <div id="input-wrap">
           <input onChange={handleChange} id="input-field" value={input}></input>
-
-          {/* Submit button */}
+        </div>
+        <div id="button-wrap">
           <button
             id="submit-button"
             onClick={() => {
@@ -110,68 +101,123 @@ const ToDoList = () => {
           >
             <i className="fa-solid fa-plus"></i>
           </button>
-
-          {/* Clear button */}
           <button onClick={clearAll}>
             <i className="fa-solid fa-arrows-rotate"></i>{" "}
           </button>
-        </section>
-        {/* {Message} */}{" "}
+        </div>
       </div>
-
-      <div
-        id="sorted-lists-wrap"
-        style={{
-          display: "flex",
-          gap: "50px",
-          border: "3px solid black",
-          padding: "50px",
-        }}
-      >
-        <div id="sorted-items-wrap">
-          <div id="sorted-list-selector">
-            <select
-              onClick={() => {
-                setMessage("List filtered");
-              }}
-              name="sortedList"
-              id="filteredList"
+      {/* here I'm sorting every task in 3 */}
+      <div id="sorted-items-wrap">
+        <h4>Sort items</h4>
+        <div id="sorted-list-selector">
+          <select
+            onClick={() => {
+              setMessage("List filtered");
+            }}
+            name="sortedList"
+            id="filteredList"
+          >
+            <option value="allTasks">All tasks</option>
+            <option value="toDo" disabled={notDoneList.length === 0}>
+              To do
+            </option>
+            <option
+              value="workInProgress"
+              disabled={workInProgressList.length === 0}
             >
-              <option value="allTasks">All tasks</option>
-              <option value="toDo" disabled={notDoneList.length === 0}>
-                To do
-              </option>
-              <option
-                value="workInProgress"
-                disabled={workInProgressList.length === 0}
-              >
-                Work in progress
-              </option>
-              <option value="done" disabled={doneList.length === 0}>
-                Done
-              </option>
-            </select>
-          </div>
+              Work in progress
+            </option>
+            <option value="done" disabled={doneList.length === 0}>
+              Done
+            </option>
+          </select>
+        </div>
+        <div id="sorted-list-results">
+          {showedList === "allTasks" ? (
+            <ul>
+              {taskList.map((task, index) => (
+                <div
+                  key={`${index}div`}
+                >
+                  {/* Item */}
+                  <li key={`${index}item`}>{task.description}</li>
 
-          <div id="sorted-list-results">
-            {showedList === "allTasks" ? (
-              <ul>
-                {taskList.map((task, index) => (
                   <div
-                    style={{
-                      textAlign: "center",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "10px",
-                    }}
-                    key={`${index}div`}
+                    id="item-button-wrap"
                   >
-                    {/* Item */}
-                    <li key={`${index}item`}>{task.description}</li>
+                    {/* Color button */}
+                    <button
+                      key={`${index}status-button`}
+                      onClick={() => {
+                        let currentIndex = improvedStatus.findIndex(
+                          (item) => item.colorCode === task.progress.colorCode
+                        );
+                        let newIndex = (currentIndex + 1) % 3;
+                        let updatedTaskList = [...taskList];
+
+                        updatedTaskList[index].progress.colorDescription =
+                          improvedStatus[newIndex].colorDescription;
+
+                        updatedTaskList[index].progress.colorCode =
+                          improvedStatus[newIndex].colorCode;
+                        setTaskList(updatedTaskList);
+                        console.log(task);
+                      }}
+                      style={{
+                        background: task.progress.colorCode,
+                      }}
+                    >
+                      <i className="fa-solid fa-bars-progress"></i>
+                    </button>
+
+                    {/* modify button */}
+                    <button
+                      key={`${index}modify-button`}
+                      id="modify-button"
+                      onClick={() => {
+                        if (!modifyMode) {
+                          setModifyMode(true);
+                          setTaskToModify(task.description);
+                          setInput(task.description);
+                          document.getElementById("input-field")?.focus();
+                        } else {
+                          setModifyMode(false);
+                          task.description = input;
+                          setInput("");
+                          setTaskToModify("");
+                        }
+                      }}
+                    >
+                      <i className="fa-solid fa-pen-to-square"></i>
+                    </button>
+
+                    {/* delete button */}
+                    <button
+                      key={`${index}delete-button`}
+                      onClick={() => {
+                        let updatedList = taskList.filter(
+                          (_, idx) => index !== idx
+                        );
+                        setTaskList(updatedList);
+                        setInput("");
+                      }}
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+
+                  {/* task ends */}
+                </div>
+              ))}
+            </ul>
+          ) : showedList === "toDo" ? (
+            <div className="sortedList">
+              <ul>
+                {notDoneList.map((task, index) => (
+                  <div>
+                    <li>{task.description}</li>
 
                     <div
-                      style={{ display: "flex", gap: "5px" }}
                       id="item-button-wrap"
                     >
                       {/* Color button */}
@@ -235,254 +281,171 @@ const ToDoList = () => {
                         <i className="fa-solid fa-trash"></i>
                       </button>
                     </div>
-
-                    {/* task ends */}
                   </div>
                 ))}
               </ul>
-            ) : showedList === "toDo" ? (
-              <div className="sortedList">
-                <ul>
-                  {notDoneList.map((task, index) => (
-                    <div>
-                      <li>{task.description}</li>
+            </div>
+          ) : showedList === "workInProgress" ? (
+            <div className="sortedList">
+              <ul>
+                {workInProgressList.map((task, index) => (
+                  <div>
+                    <li>{task.description}</li>
 
-                      <div
-                        style={{ display: "flex", gap: "5px" }}
-                        id="item-button-wrap"
+                    <div
+                      id="item-button-wrap"
+                    >
+                      {/* Color button */}
+                      <button
+                        key={`${index}status-button`}
+                        onClick={() => {
+                          let currentIndex = improvedStatus.findIndex(
+                            (item) => item.colorCode === task.progress.colorCode
+                          );
+                          let newIndex = (currentIndex + 1) % 3;
+                          let updatedTaskList = [...taskList];
+
+                          updatedTaskList[index].progress.colorDescription =
+                            improvedStatus[newIndex].colorDescription;
+
+                          updatedTaskList[index].progress.colorCode =
+                            improvedStatus[newIndex].colorCode;
+                          setTaskList(updatedTaskList);
+                          console.log(task);
+                        }}
+                        style={{
+                          background: task.progress.colorCode,
+                          color: "black",
+                        }}
                       >
-                        {/* Color button */}
-                        <button
-                          key={`${index}status-button`}
-                          onClick={() => {
-                            let currentIndex = improvedStatus.findIndex(
-                              (item) =>
-                                item.colorCode === task.progress.colorCode
-                            );
-                            let newIndex = (currentIndex + 1) % 3;
-                            let updatedTaskList = [...taskList];
+                        <i className="fa-solid fa-bars-progress"></i>
+                      </button>
 
-                            updatedTaskList[index].progress.colorDescription =
-                              improvedStatus[newIndex].colorDescription;
-
-                            updatedTaskList[index].progress.colorCode =
-                              improvedStatus[newIndex].colorCode;
-                            setTaskList(updatedTaskList);
-                            console.log(task);
-                          }}
-                          style={{
-                            background: task.progress.colorCode,
-                            color: "black",
-                          }}
-                        >
-                          <i className="fa-solid fa-bars-progress"></i>
-                        </button>
-
-                        {/* modify button */}
-                        <button
-                          key={`${index}modify-button`}
-                          id="modify-button"
-                          onClick={() => {
-                            if (!modifyMode) {
-                              setModifyMode(true);
-                              setTaskToModify(task.description);
-                              setInput(task.description);
-                              document.getElementById("input-field")?.focus();
-                            } else {
-                              setModifyMode(false);
-                              task.description = input;
-                              setInput("");
-                              setTaskToModify("");
-                            }
-                          }}
-                        >
-                          <i className="fa-solid fa-pen-to-square"></i>
-                        </button>
-
-                        {/* delete button */}
-                        <button
-                          key={`${index}delete-button`}
-                          onClick={() => {
-                            let updatedList = taskList.filter(
-                              (_, idx) => index !== idx
-                            );
-                            setTaskList(updatedList);
+                      {/* modify button */}
+                      <button
+                        key={`${index}modify-button`}
+                        id="modify-button"
+                        onClick={() => {
+                          if (!modifyMode) {
+                            setModifyMode(true);
+                            setTaskToModify(task.description);
+                            setInput(task.description);
+                            document.getElementById("input-field")?.focus();
+                          } else {
+                            setModifyMode(false);
+                            task.description = input;
                             setInput("");
-                          }}
-                        >
-                          <i className="fa-solid fa-trash"></i>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </ul>
-              </div>
-            ) : showedList === "workInProgress" ? (
-              <div className="sortedList">
-                <ul>
-                  {workInProgressList.map((task, index) => (
-                    <div>
-                      <li>{task.description}</li>
-
-                      <div
-                        style={{ display: "flex", gap: "5px" }}
-                        id="item-button-wrap"
+                            setTaskToModify("");
+                          }
+                        }}
                       >
-                        {/* Color button */}
-                        <button
-                          key={`${index}status-button`}
-                          onClick={() => {
-                            let currentIndex = improvedStatus.findIndex(
-                              (item) =>
-                                item.colorCode === task.progress.colorCode
-                            );
-                            let newIndex = (currentIndex + 1) % 3;
-                            let updatedTaskList = [...taskList];
+                        <i className="fa-solid fa-pen-to-square"></i>
+                      </button>
 
-                            updatedTaskList[index].progress.colorDescription =
-                              improvedStatus[newIndex].colorDescription;
-
-                            updatedTaskList[index].progress.colorCode =
-                              improvedStatus[newIndex].colorCode;
-                            setTaskList(updatedTaskList);
-                            console.log(task);
-                          }}
-                          style={{
-                            background: task.progress.colorCode,
-                            color: "black",
-                          }}
-                        >
-                          <i className="fa-solid fa-bars-progress"></i>
-                        </button>
-
-                        {/* modify button */}
-                        <button
-                          key={`${index}modify-button`}
-                          id="modify-button"
-                          onClick={() => {
-                            if (!modifyMode) {
-                              setModifyMode(true);
-                              setTaskToModify(task.description);
-                              setInput(task.description);
-                              document.getElementById("input-field")?.focus();
-                            } else {
-                              setModifyMode(false);
-                              task.description = input;
-                              setInput("");
-                              setTaskToModify("");
-                            }
-                          }}
-                        >
-                          <i className="fa-solid fa-pen-to-square"></i>
-                        </button>
-
-                        {/* delete button */}
-                        <button
-                          key={`${index}delete-button`}
-                          onClick={() => {
-                            let updatedList = taskList.filter(
-                              (_, idx) => index !== idx
-                            );
-                            setTaskList(updatedList);
-                            setInput("");
-                          }}
-                        >
-                          <i className="fa-solid fa-trash"></i>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </ul>
-              </div>
-            ) : showedList === "done" ? (
-              <div className="sortedList">
-                <ul>
-                  {doneList.map((task, index) => (
-                    <div>
-                      <li>{task.description}</li>
-
-                      <div
-                        style={{ display: "flex", gap: "5px" }}
-                        id="item-button-wrap"
+                      {/* delete button */}
+                      <button
+                        key={`${index}delete-button`}
+                        onClick={() => {
+                          let updatedList = taskList.filter(
+                            (_, idx) => index !== idx
+                          );
+                          setTaskList(updatedList);
+                          setInput("");
+                        }}
                       >
-                        {/* Color button */}
-                        <button
-                          key={`${index}status-button`}
-                          onClick={() => {
-                            let currentIndex = improvedStatus.findIndex(
-                              (item) =>
-                                item.colorCode === task.progress.colorCode
-                            );
-                            let newIndex = (currentIndex + 1) % 3;
-                            let updatedTaskList = [...taskList];
-
-                            updatedTaskList[index].progress.colorDescription =
-                              improvedStatus[newIndex].colorDescription;
-
-                            updatedTaskList[index].progress.colorCode =
-                              improvedStatus[newIndex].colorCode;
-                            setTaskList(updatedTaskList);
-                            console.log(task);
-                          }}
-                          style={{
-                            background: task.progress.colorCode,
-                            color: "black",
-                          }}
-                        >
-                          <i className="fa-solid fa-bars-progress"></i>
-                        </button>
-
-                        {/* modify button */}
-                        <button
-                          key={`${index}modify-button`}
-                          id="modify-button"
-                          onClick={() => {
-                            if (!modifyMode) {
-                              setModifyMode(true);
-                              setTaskToModify(task.description);
-                              setInput(task.description);
-                              document.getElementById("input-field")?.focus();
-                            } else {
-                              setModifyMode(false);
-                              task.description = input;
-                              setInput("");
-                              setTaskToModify("");
-                            }
-                          }}
-                        >
-                          <i className="fa-solid fa-pen-to-square"></i>
-                        </button>
-
-                        {/* delete button */}
-                        <button
-                          key={`${index}delete-button`}
-                          onClick={() => {
-                            let updatedList = taskList.filter(
-                              (_, idx) => index !== idx
-                            );
-                            setTaskList(updatedList);
-                            setInput("");
-                          }}
-                        >
-                          <i className="fa-solid fa-trash"></i>
-                        </button>
-                      </div>
+                        <i className="fa-solid fa-trash"></i>
+                      </button>
                     </div>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </div>
-          {taskList.length === 0 ? (
-            <p>No tasks left</p>
-          ) : taskList.length === 1 ? (
-            <p>1 task left</p>
-          ) : (
-            <p>{taskList.length} tasks left </p>
-          )}
+                  </div>
+                ))}
+              </ul>
+            </div>
+          ) : showedList === "done" ? (
+            <div className="sortedList">
+              <ul>
+                {doneList.map((task, index) => (
+                  <div>
+                    <li>{task.description}</li>
+
+                    <div
+                      id="item-button-wrap"
+                    >
+                      {/* Color button */}
+                      <button
+                        key={`${index}status-button`}
+                        onClick={() => {
+                          let currentIndex = improvedStatus.findIndex(
+                            (item) => item.colorCode === task.progress.colorCode
+                          );
+                          let newIndex = (currentIndex + 1) % 3;
+                          let updatedTaskList = [...taskList];
+
+                          updatedTaskList[index].progress.colorDescription =
+                            improvedStatus[newIndex].colorDescription;
+
+                          updatedTaskList[index].progress.colorCode =
+                            improvedStatus[newIndex].colorCode;
+                          setTaskList(updatedTaskList);
+                          console.log(task);
+                        }}
+                        style={{
+                          background: task.progress.colorCode,
+                          color: "black",
+                        }}
+                      >
+                        <i className="fa-solid fa-bars-progress"></i>
+                      </button>
+
+                      {/* modify button */}
+                      <button
+                        key={`${index}modify-button`}
+                        id="modify-button"
+                        onClick={() => {
+                          if (!modifyMode) {
+                            setModifyMode(true);
+                            setTaskToModify(task.description);
+                            setInput(task.description);
+                            document.getElementById("input-field")?.focus();
+                          } else {
+                            setModifyMode(false);
+                            task.description = input;
+                            setInput("");
+                            setTaskToModify("");
+                          }
+                        }}
+                      >
+                        <i className="fa-solid fa-pen-to-square"></i>
+                      </button>
+
+                      {/* delete button */}
+                      <button
+                        key={`${index}delete-button`}
+                        onClick={() => {
+                          let updatedList = taskList.filter(
+                            (_, idx) => index !== idx
+                          );
+                          setTaskList(updatedList);
+                          setInput("");
+                        }}
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </div>
+        {taskList.length === 0 ? (
+          <p>No tasks left</p>
+        ) : taskList.length === 1 ? (
+          <p>1 task left</p>
+        ) : (
+          <p>{taskList.length} tasks left </p>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -8,7 +8,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 function App() {
   return (
     <>
-      <h1>App Store</h1>
+      <h1>React Progs</h1>
       <ToDoList />
     </>
   );
