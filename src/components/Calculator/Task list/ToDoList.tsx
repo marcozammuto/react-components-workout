@@ -136,15 +136,11 @@ const ToDoList = () => {
           {showedList === "allTasks" ? (
             <ul>
               {taskList.map((task, index) => (
-                <div
-                  key={`${index}div`}
-                >
+                <div key={`${index}div`}>
                   {/* Item */}
                   <li key={`${index}item`}>{task.description}</li>
 
-                  <div
-                    id="item-button-wrap"
-                  >
+                  <div id="item-button-wrap">
                     {/* Color button */}
                     <button
                       key={`${index}status-button`}
@@ -217,9 +213,7 @@ const ToDoList = () => {
                   <div>
                     <li>{task.description}</li>
 
-                    <div
-                      id="item-button-wrap"
-                    >
+                    <div id="item-button-wrap">
                       {/* Color button */}
                       <button
                         key={`${index}status-button`}
@@ -292,9 +286,7 @@ const ToDoList = () => {
                   <div>
                     <li>{task.description}</li>
 
-                    <div
-                      id="item-button-wrap"
-                    >
+                    <div id="item-button-wrap">
                       {/* Color button */}
                       <button
                         key={`${index}status-button`}
@@ -367,9 +359,7 @@ const ToDoList = () => {
                   <div>
                     <li>{task.description}</li>
 
-                    <div
-                      id="item-button-wrap"
-                    >
+                    <div id="item-button-wrap">
                       {/* Color button */}
                       <button
                         key={`${index}status-button`}
