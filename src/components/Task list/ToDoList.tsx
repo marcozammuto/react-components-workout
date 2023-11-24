@@ -88,50 +88,89 @@ const ToDoList = () => {
   return (
     <div id="wrap">
       <h2 id="title">To do list</h2>
-      <div id="command-wrap">
-        <div id="input-wrap">
-          <input onChange={handleChange} id="input-field" value={input}></input>
-        </div>
-        <div id="button-wrap">
-          <button
-            id="submit-button"
-            onClick={() => {
-              submitTask();
-            }}
-          >
-            <i className="fa-solid fa-plus"></i>
-          </button>
-          <button onClick={clearAll}>
-            <i className="fa-solid fa-arrows-rotate"></i>{" "}
-          </button>
+
+      <div id="button-wrap">
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <button
+              id="submit-button"
+              onClick={() => {
+                submitTask();
+              }}
+              className="btn btn-outline-secondary"
+              type="button"
+            >
+              <i className="fa-solid fa-plus"></i>
+            </button>
+
+            <button
+              id="submit-button"
+              onClick={() => {
+                submitTask();
+              }}
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={clearAll}
+            >
+              <i className="fa-solid fa-arrows-rotate"></i>
+            </button>
+          </div>
+          <input
+            onChange={handleChange}
+            id="input-field"
+            value={input}
+            type="text"
+            className="form-control"
+            placeholder=""
+            aria-label=""
+            aria-describedby="basic-addon1"
+          />
         </div>
       </div>
       {/* here I'm sorting every task in 3 */}
       <div id="sorted-items-wrap">
-        <h4>Sort items</h4>
-        <div id="sorted-list-selector">
-          <select
-            onClick={() => {
-              setMessage("List filtered");
-            }}
-            name="sortedList"
-            id="filteredList"
-          >
-            <option value="allTasks">All tasks</option>
-            <option value="toDo" disabled={notDoneList.length === 0}>
-              To do
-            </option>
-            <option
+        <div className="btn-group btn-group-toggle" data-toggle="buttons">
+          <label className="btn btn-secondary active">
+            <input
+              disabled={taskList.length === 0}
+              type="radio"
+              name="options"
+              id="all-tasks-button"
+              value="allTasks"
+            />{" "}
+            All tasks
+          </label>
+          <label className="btn btn-secondary">
+            <input
+              type="radio"
+              name="options"
+              id="option2"
+              value="toDo"
+              disabled={notDoneList.length === 0}
+            />
+            To do
+          </label>
+          <label className="btn btn-secondary">
+            <input
+              type="radio"
+              name="options"
               value="workInProgress"
               disabled={workInProgressList.length === 0}
-            >
-              Work in progress
-            </option>
-            <option value="done" disabled={doneList.length === 0}>
-              Done
-            </option>
-          </select>
+            />{" "}
+            In progress
+          </label>
+          <label className="btn btn-secondary">
+            <input
+              type="radio"
+              name="options"
+              id="option3"
+              value="done"
+              disabled={doneList.length === 0}
+            />{" "}
+            Done
+          </label>
         </div>
+
         <div id="sorted-list-results">
           {showedList === "allTasks" ? (
             <ul>

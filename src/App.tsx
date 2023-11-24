@@ -1,5 +1,5 @@
 import "./App.css";
-import ToDoList from "./components/Calculator/Task list/ToDoList";
+import ToDoList from "./components/Task list/ToDoList";
 import ApiPractice from "./ApiPractice";
 import Calculator from "./components/Calculator/Calculator";
 import "bootstrap/dist/css/bootstrap.min.css";
