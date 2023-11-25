@@ -1,4 +1,8 @@
 #wrap {
+  padding: 15px;
+}
+
+#list-wrap {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -6,14 +10,6 @@
   text-align: left;
 }
 
-#view-wrap {
-  text-align: left;
-  padding-top: 15px;
-}
-
 #footer-wrap {
   font-size: 0.8rem;
 }
-
-
-
