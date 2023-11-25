@@ -9,6 +9,7 @@ const ToDoList = () => {
   const [selectedList, setSelectedList] = useState([]);
   const [modifyMode, setModifyMode] = useState(false);
   const [taskToModify, setTaskToModify] = useState("");
+  const [message, setMessage] = useState("Get started");
 
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
     setInput(e.target.value);
@@ -22,6 +23,7 @@ const ToDoList = () => {
           status: colors[0],
         };
         setTaskList([...taskList, newTask]);
+        setMessage("Task submitted");
       } else {
         const updatedList = taskList.map((task) => {
           if (task.description === taskToModify) {
@@ -35,14 +37,18 @@ const ToDoList = () => {
         setTaskList(updatedList);
         setModifyMode(false);
         setTaskToModify("");
+        setMessage("Task modified");
       }
       setInput("");
+    } else {
+      setMessage("Error");
     }
   };
 
   const clearAll = () => {
     setTaskList([]);
     setInput("");
+    setMessage("List cleared");
   };
 
   const handleKeyPress = (e) => {
@@ -63,7 +69,7 @@ const ToDoList = () => {
   addEventListener("keydown", handleKeyPress);
 
   return (
-    <>
+    <div className="bg-light">
       <h2 id="title">To do list</h2>
       <div id="wrap">
         <div id="new-task-wrap" className="input-group mb-3">
@@ -100,6 +106,7 @@ const ToDoList = () => {
             aria-describedby="basic-addon1"
           />
         </div>
+        <p>{message}</p>
 
         <div
           id="button-wrap"
@@ -112,7 +119,10 @@ const ToDoList = () => {
               type="radio"
               id="all-tasks-button"
               value="allTasks"
-              onClick={() => setSelectedList(taskList)}
+              onClick={() => {
+                setSelectedList(taskList);
+                setMessage("List sorted");
+              }}
             />
             All
           </label>
@@ -124,6 +134,7 @@ const ToDoList = () => {
               value="toDo"
               onClick={() => {
                 listSwitcher(colors[0]);
+                setMessage("List sorted");
               }}
             />
             To do
@@ -136,6 +147,7 @@ const ToDoList = () => {
               value="workInProgress"
               onClick={() => {
                 listSwitcher(colors[1]);
+                setMessage("List sorted");
               }}
             />{" "}
             In progress
@@ -148,6 +160,7 @@ const ToDoList = () => {
               value="done"
               onClick={() => {
                 listSwitcher(colors[2]);
+                setMessage("List sorted");
               }}
             />{" "}
             Done
@@ -201,6 +214,7 @@ const ToDoList = () => {
                       task.description = input;
                       setInput("");
                       setTaskToModify("");
+                      setMessage("List modified");
                     }
                   }}
                 >
@@ -212,6 +226,7 @@ const ToDoList = () => {
                       (item) => item.description !== task.description
                     );
                     setTaskList(updatedList);
+                    setMessage("Task deleted");
                   }}
                 >
                   <i className="fa-solid fa-trash"></i>
@@ -248,7 +263,7 @@ const ToDoList = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
