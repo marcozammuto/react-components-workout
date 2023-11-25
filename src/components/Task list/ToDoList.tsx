@@ -9,7 +9,6 @@ const ToDoList = () => {
   ];
 
   const [input, setInput] = useState("");
-  const [message, setMessage] = useState("Get started");
   const [taskList, setTaskList] = useState([]);
   const [notDoneList, setNotDoneList] = useState([]);
   const [workInProgressList, setWorkInProgressList] = useState([]);
@@ -43,17 +42,14 @@ const ToDoList = () => {
       if (!modifyMode) {
         setTaskList([...taskList, updatedTaskStructure]);
         setInput("");
-        setMessage("List updated");
         setModifyMode(false);
       } else if (modifyMode) {
         setInput("");
-        setMessage("Task updated");
         setModifyMode(false);
         setTaskToModify("");
         document.getElementById("modify-button")?.click();
       }
     } else {
-      setMessage("Error");
     }
   };
 
@@ -75,10 +71,17 @@ const ToDoList = () => {
     setWorkInProgressList(sortedListInProgress);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      submitTask();
+    }
+  };
+
+  addEventListener("keypress", handleKeyPress);
+
   const clearAll = () => {
     setTaskList([]);
     setInput("");
-    setMessage("List cleared");
     setNotDoneList([]);
     setWorkInProgressList([]);
     setDoneList([]);
@@ -125,59 +128,54 @@ const ToDoList = () => {
             aria-describedby="basic-addon1"
           />
         </div>
-
         <div
           id="list-wrap"
           className="btn-group btn-group-toggle"
           data-toggle="buttons"
         >
-          <section id="switch-wrap">
-            <label className="btn btn-secondary active">
-              <input
-                disabled={taskList.length === 0}
-                type="radio"
-                name="options"
-                id="all-tasks-button"
-                value="allTasks"
-                onClick={() => setShowedList("allTasks")}
-              />
-              All tasks
-            </label>
-            <label className="btn btn-secondary">
-              <input
-                type="radio"
-                name="options"
-                id="option2"
-                value="toDo"
-                disabled={notDoneList.length === 0}
-                onClick={() => setShowedList("toDo")}
-              />
-              To do
-            </label>
-            <label className="btn btn-secondary">
-              <input
-                type="radio"
-                name="options"
-                value="workInProgress"
-                disabled={workInProgressList.length === 0}
-                onClick={() => setShowedList("workInProgress")}
-              />{" "}
-              In progress
-            </label>
-            <label className="btn btn-secondary">
-              <input
-                type="radio"
-                name="options"
-                id="option3"
-                value="done"
-                disabled={doneList.length === 0}
-                onClick={() => setShowedList("done")}
-              />{" "}
-              Done
-            </label>
-          </section>
+          <label className="btn btn-secondary active">
+            <input
+              disabled={taskList.length === 0}
+              type="radio"
+              name="options"
+              id="all-tasks-button"
+              value="allTasks"
+              onClick={() => setShowedList("allTasks")}
+            />
+            All tasks
+          </label>
+          <label className="btn btn-secondary">
+            <input
+              type="radio"
+              name="options"
+              id="option2"
+              value="toDo"
+              disabled={notDoneList.length === 0}
+              onClick={() => setShowedList("toDo")}
+            />
+            To do
+          </label>
+          <label className="btn btn-secondary">
+            <input
+              type="radio"
+              name="options"
+              value="workInProgress"
+              disabled={workInProgressList.length === 0}
+              onClick={() => setShowedList("workInProgress")}
+            />{" "}
+            In progress
+          </label>
+          <label className="btn btn-secondary">
+            <input
+              type="radio"
+              name="options"
+              value="done"
+              disabled={doneList.length === 0}
+              onClick={() => setShowedList("done")}
+            />{" "}
+            Done
+          </label>
         </div>
-
         <hr style={{ width: "100%" }} />
 
         <div id="view-wrap">
@@ -185,11 +183,8 @@ const ToDoList = () => {
             <ul>
               {taskList.map((task, index) => (
                 <div key={`${index}div`}>
-                  {/* Item */}
                   <li key={`${index}item`}>{task.description}</li>
-
                   <div id="item-button-wrap">
-                    {/* Color button */}
                     <button
                       key={`${index}status-button`}
                       onClick={() => {
@@ -213,8 +208,6 @@ const ToDoList = () => {
                     >
                       <i className="fa-solid fa-bars-progress"></i>
                     </button>
-
-                    {/* modify button */}
                     <button
                       key={`${index}modify-button`}
                       id="modify-button"
@@ -234,8 +227,6 @@ const ToDoList = () => {
                     >
                       <i className="fa-solid fa-pen-to-square"></i>
                     </button>
-
-                    {/* delete button */}
                     <button
                       key={`${index}delete-button`}
                       onClick={() => {
