@@ -39,8 +39,6 @@ const ToDoList = () => {
     setSelectedList(sortedList);
   };
 
-  addEventListener("keypress", handleKeyPress);
-
   return (
     <div id="wrap" className="bg-light">
       <div id="list-wrap">
