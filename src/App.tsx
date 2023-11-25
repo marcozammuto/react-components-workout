@@ -1,5 +1,5 @@
 import "./App.css";
-import ToDoList from "./components/toDoList/ToDoList";
+import { Calculator, ToDoList, RandomQuoteGenerator } from "./components/index";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 

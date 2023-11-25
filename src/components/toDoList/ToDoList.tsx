@@ -9,7 +9,7 @@ const ToDoList = () => {
   const [selectedList, setSelectedList] = useState([]);
   const [modifyMode, setModifyMode] = useState(false);
   const [taskToModify, setTaskToModify] = useState("");
-  const [message, setMessage] = useState("Get Started");
+  const [message, setMessage] = useState("Get Started!");
 
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
     setInput(e.target.value);

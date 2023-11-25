@@ -113,7 +113,6 @@ const Calculator = () => {
     setCurrentNumber("0");
     setDecimalClicked(false);
     setEqualsClicked(false);
-    setOperatorClicked(false);
     setRightBegin(false);
     setZeroReset(false);
     setSameSymbolClicked("");
@@ -173,78 +172,85 @@ const Calculator = () => {
   };
 
   return (
-    <div id="calculator">
-      <div id="display-wrap">
-        <p id="input">{input}</p>
-        <p id="display">{output}</p>
-      </div>
-      <div id="keyboard">
-        <button id="clear" className="jumbo" onClick={clear}>
-          AC
-        </button>
-        <button id="decimal" className="operator" onClick={decimal}>
-          .
-        </button>
-        <button id="add" className="operator" onClick={() => addOperator("+")}>
-          +
-        </button>
-        <button id="seven" className="unit" onClick={() => addNum("7")}>
-          7
-        </button>
-        <button id="eight" className="unit" onClick={() => addNum("8")}>
-          8
-        </button>
-        <button id="nine" className="unit" onClick={() => addNum("9")}>
-          9
-        </button>
-        <button
-          id="subtract"
-          className="operator"
-          onClick={() => addOperator("-")}
-        >
-          -
-        </button>
-        <button id="four" className="unit" onClick={() => addNum("4")}>
-          4
-        </button>
-        <button id="five" className="unit" onClick={() => addNum(5)}>
-          5
-        </button>
-        <button id="six" className="unit" onClick={() => addNum(6)}>
-          6
-        </button>
-        <button
-          id="multiply"
-          className="operator"
-          onClick={() => addOperator("*")}
-        >
-          x
-        </button>
-        <button id="one" className="unit" onClick={() => addNum(1)}>
-          1
-        </button>
-        <button id="two" className="unit" onClick={() => addNum(2)}>
-          2
-        </button>
-        <button id="three" className="unit" onClick={() => addNum(3)}>
-          3
-        </button>
-        <button
-          id="divide"
-          className="operator"
-          onClick={() => addOperator("/")}
-        >
-          /
-        </button>
-        <button id="zero" className="unit" onClick={() => addNum(0)}>
-          0
-        </button>
+    <>
+      <h2>React prog #1: Calculator</h2>
+      <div id="calculator">
+        <div id="display-wrap">
+          <p id="input">{input}</p>
+          <p id="display">{output}</p>
+        </div>
+        <div id="keyboard">
+          <button id="clear" className="jumbo" onClick={clear}>
+            AC
+          </button>
+          <button id="decimal" className="operator" onClick={decimal}>
+            .
+          </button>
+          <button
+            id="add"
+            className="operator"
+            onClick={() => addOperator("+")}
+          >
+            +
+          </button>
+          <button id="seven" className="unit" onClick={() => addNum("7")}>
+            7
+          </button>
+          <button id="eight" className="unit" onClick={() => addNum("8")}>
+            8
+          </button>
+          <button id="nine" className="unit" onClick={() => addNum("9")}>
+            9
+          </button>
+          <button
+            id="subtract"
+            className="operator"
+            onClick={() => addOperator("-")}
+          >
+            -
+          </button>
+          <button id="four" className="unit" onClick={() => addNum("4")}>
+            4
+          </button>
+          <button id="five" className="unit" onClick={() => addNum(5)}>
+            5
+          </button>
+          <button id="six" className="unit" onClick={() => addNum(6)}>
+            6
+          </button>
+          <button
+            id="multiply"
+            className="operator"
+            onClick={() => addOperator("*")}
+          >
+            x
+          </button>
+          <button id="one" className="unit" onClick={() => addNum(1)}>
+            1
+          </button>
+          <button id="two" className="unit" onClick={() => addNum(2)}>
+            2
+          </button>
+          <button id="three" className="unit" onClick={() => addNum(3)}>
+            3
+          </button>
+          <button
+            id="divide"
+            className="operator"
+            onClick={() => addOperator("/")}
+          >
+            /
+          </button>
+          <button id="zero" className="unit" onClick={() => addNum(0)}>
+            0
+          </button>
 
-        <button id="equals" className="jumbo" onClick={() => equals()}>
-          =
-        </button>
+          <button id="equals" className="jumbo" onClick={() => equals()}>
+            =
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
