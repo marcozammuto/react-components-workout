@@ -1,14 +1,11 @@
 import "./App.css";
-import ToDoList from "./components/Task list/ToDoList";
-import ApiPractice from "./ApiPractice";
-import Calculator from "./components/Calculator/Calculator";
+import ToDoList from "./components/toDoList/ToDoList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 function App() {
   return (
     <>
-      <h1>React Progs</h1>
       <ToDoList />
     </>
   );
