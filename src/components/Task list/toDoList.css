@@ -1,5 +1,9 @@
 #wrap {
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #list-wrap {
@@ -10,6 +14,8 @@
   text-align: left;
 }
 
-#footer-wrap {
-  font-size: 0.8rem;
+#counter-wrap {
+  display: flex;
+  justify-content: space-around;
+  gap: 50px;
 }

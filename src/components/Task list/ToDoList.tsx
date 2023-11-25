@@ -7,6 +7,8 @@ const ToDoList = () => {
   const [input, setInput] = useState("");
   const [taskList, setTaskList] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
+  const [modifyMode, setModifyMode] = useState(false);
+  const [taskToModify, setTaskToModify] = useState("");
 
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
     setInput(e.target.value);
@@ -14,18 +16,27 @@ const ToDoList = () => {
 
   const submitTask = () => {
     if (input) {
-      let newTask = {
-        description: input,
-        status: colors[0],
-      };
-      setTaskList([...taskList, newTask]);
+      if (!modifyMode) {
+        let newTask = {
+          description: input,
+          status: colors[0],
+        };
+        setTaskList([...taskList, newTask]);
+      } else {
+        const updatedList = taskList.map((task) => {
+          if (task.description === taskToModify) {
+            return {
+              ...task,
+              description: input,
+            };
+          }
+          return task;
+        });
+        setTaskList(updatedList);
+        setModifyMode(false);
+        setTaskToModify("");
+      }
       setInput("");
-    }
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      submitTask();
     }
   };
 
@@ -34,15 +45,27 @@ const ToDoList = () => {
     setInput("");
   };
 
-  const listSelector = (code) => {
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      submitTask();
+    }
+  };
+
+  const listSwitcher = (code) => {
     let sortedList = taskList.filter((task) => task.status === code);
     setSelectedList(sortedList);
   };
 
+  useEffect(() => {
+    setSelectedList(taskList);
+  }, [taskList]);
+
+  addEventListener("keydown", handleKeyPress);
+
   return (
-    <div id="wrap" className="bg-light">
-      <div id="list-wrap">
-        <h2 id="title">To do list</h2>
+    <>
+      <h2 id="title">To do list</h2>
+      <div id="wrap">
         <div id="new-task-wrap" className="input-group mb-3">
           <button
             id="submit-button"
@@ -91,7 +114,7 @@ const ToDoList = () => {
               value="allTasks"
               onClick={() => setSelectedList(taskList)}
             />
-            All tasks
+            All
           </label>
           <label className="btn btn-secondary bg-danger">
             <input
@@ -99,7 +122,9 @@ const ToDoList = () => {
               type="radio"
               id="red-button"
               value="toDo"
-              onClick={() => listSelector(colors[0])}
+              onClick={() => {
+                listSwitcher(colors[0]);
+              }}
             />
             To do
           </label>
@@ -109,7 +134,9 @@ const ToDoList = () => {
               type="radio"
               id="yellow-button"
               value="workInProgress"
-              onClick={() => listSelector(colors[1])}
+              onClick={() => {
+                listSwitcher(colors[1]);
+              }}
             />{" "}
             In progress
           </label>
@@ -119,12 +146,14 @@ const ToDoList = () => {
               type="radio"
               id="green-button"
               value="done"
-              onClick={() => listSelector(colors[2])}
+              onClick={() => {
+                listSwitcher(colors[2]);
+              }}
             />{" "}
             Done
           </label>
         </div>
-        <hr />
+        <hr></hr>
 
         <div>
           <ol style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
@@ -137,43 +166,89 @@ const ToDoList = () => {
                   gap: "10px",
                 }}
               >
-                <li style={{ width: "200px" }}>{task.description}</li>
+                <li style={{ width: "180px", textAlign: "left" }}>
+                  {task.description}
+                </li>
 
                 <button
                   style={{ background: `${task.status}`, color: "black" }}
                   onClick={() => {
-                    const updatedTaskList = [...taskList];
-                    let actualIndex = colors.findIndex(
-                      (color) => color === task.status
-                    );
-                    let newIndex = (actualIndex + 1) % colors.length;
-                    updatedTaskList[index] = {
-                      ...task,
-                      status: colors[newIndex],
-                    };
-                    setTaskList(updatedTaskList);
+                    setTaskList((prevState) => {
+                      const updatedTaskList = [...prevState];
+                      let actualIndex = colors.findIndex(
+                        (color) => color === task.status
+                      );
+                      let newIndex = (actualIndex + 1) % colors.length;
+                      updatedTaskList[index] = {
+                        ...task,
+                        status: colors[newIndex],
+                      };
+                      return updatedTaskList;
+                    });
                   }}
                 >
                   <i className="fa-solid fa-spinner"></i>
                 </button>
-                <button>
+                <button
+                  onClick={() => {
+                    if (!modifyMode) {
+                      setModifyMode(true);
+                      setInput(task.description);
+                      setTaskToModify(task.description);
+                      document.getElementById("input-field")?.focus();
+                    } else {
+                      setModifyMode(false);
+                      task.description = input;
+                      setInput("");
+                      setTaskToModify("");
+                    }
+                  }}
+                >
+                  <i className="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button
+                  onClick={() => {
+                    let updatedList = taskList.filter(
+                      (item) => item.description !== task.description
+                    );
+                    setTaskList(updatedList);
+                  }}
+                >
                   <i className="fa-solid fa-trash"></i>
                 </button>
               </div>
             ))}
           </ol>
         </div>
+        <div id="counter-wrap">
+          <div>
+            <div className="me-auto">Total</div>
+            <span className="badge bg-primary rounded-pill">
+              {taskList.length}
+            </span>
+          </div>
+
+          <div>
+            <div className="me-auto">To do</div>
+            <span className="badge bg-primary rounded-pill">
+              {taskList.filter((task) => task.status === colors[0]).length}
+            </span>
+          </div>
+          <div>
+            <div className="me-auto">In progress</div>
+            <span className="badge bg-primary rounded-pill">
+              {taskList.filter((task) => task.status === colors[1]).length}
+            </span>
+          </div>
+          <div>
+            <div className="me-auto">Done</div>
+            <span className="badge bg-primary rounded-pill">
+              {taskList.filter((task) => task.status === colors[2]).length}
+            </span>
+          </div>
+        </div>
       </div>
-      <div id="footer-wrap">
-        {taskList.length === 0 ? (
-          <p>No tasks left</p>
-        ) : taskList.length === 1 ? (
-          <p>1 task left</p>
-        ) : (
-          <p>{taskList.length} tasks left </p>
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 
