@@ -21,7 +21,13 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#new-task-wrap {
+#first-line-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#second-line-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
