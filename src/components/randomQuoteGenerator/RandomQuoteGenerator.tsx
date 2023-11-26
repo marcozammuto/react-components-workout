@@ -86,17 +86,28 @@ const RandomQuoteGenerator = () => {
 
   return (
     <div id="root">
+        <h3 style={{ fontSize: "20px", textAlign: "left" }}>
+          React prog #3: Random Quote Generator
+        </h3>
       <div id="text-box">
         <blockquote className="blockquote" id="blockquote">
           <p
             className="mb-0"
-            style={{ color: `${color[index]}`, textAlign: "left" }}
+            style={{
+              color: `${color[index]}`,
+              textAlign: "left",
+              fontWeight: "bold",
+            }}
           >
             {currentQuote.text}
           </p>
           <footer
             className="blockquote-footer"
-            style={{ color: `${color[index]}`, textAlign: "right" }}
+            style={{
+              color: `${color[index]}`,
+              textAlign: "right",
+              fontWeight: "350",
+            }}
           >
             {currentQuote.author}
           </footer>
