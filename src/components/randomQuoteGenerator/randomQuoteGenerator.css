@@ -10,15 +10,15 @@
 #text-box {
   display: flex;
   flex-direction: column;
-  width: 453px;
-  padding: 25px;
+  width: 623px;
+  padding: 35px;
   background-color: var(--white);
 }
 
-#blockquote {
+#blockquote-id {
   display: flex;
   flex-direction: column;
-  gap: 5vh;
+  gap: 10vh;
 }
 
 #buttons {

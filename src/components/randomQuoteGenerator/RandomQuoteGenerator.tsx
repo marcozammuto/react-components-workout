@@ -59,7 +59,7 @@ const RandomQuoteGenerator = () => {
         React prog #3: Random Quote Generator
       </h3>
       <div id="text-box">
-        <blockquote className="blockquote" id="blockquote">
+        <blockquote className="blockquote" id="blockquote-id">
           <p
             className="mb-0"
             style={{
@@ -91,13 +91,6 @@ const RandomQuoteGenerator = () => {
           >
             <i className="fa-brands fas fa-bell fa-2x fa-square-twitter"></i>
           </a>
-          <a
-            className="button-link"
-            style={{ color: `${color[index]}` }}
-            href="https://www.tumblr.com/"
-          >
-            <i className="fa-brands fas fa-bell fa-2x fa-square-tumblr"></i>
-          </a>
           <button
             className="custom-button"
             style={{
@@ -107,6 +100,15 @@ const RandomQuoteGenerator = () => {
           >
             <i className="fa-regular fa-comment"></i>
           </button>
+          <a
+            className="button-link"
+            style={{ color: `${color[index]}` }}
+            href="https://www.tumblr.com/"
+          >
+            <i className="fa-brands fas fa-bell fa-2x fa-square-tumblr"></i>
+          </a>
+
+          
         </div>
       </div>
     </div>
