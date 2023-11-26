@@ -7,73 +7,42 @@ const RandomQuoteGenerator = () => {
     text: "The beautiful thing about learning is that nobody can take it away from you",
     author: "BB King",
   });
-  const [index, setIndex] = useState(1);
-  const color = [
-    "#FF6633",
-    "#FFB399",
-    "#FF33FF",
-    "#FFFF99",
-    "#00B3E6",
-    "#E6B333",
-    "#3366E6",
-    "#999966",
-    "#99FF99",
-    "#B34D4D",
-    "#80B300",
-    "#809900",
-    "#E6B3B3",
-    "#6680B3",
-    "#66991A",
-    "#FF99E6",
-    "#CCFF1A",
-    "#FF1A66",
-    "#E6331A",
-    "#33FFCC",
-    "#66994D",
-    "#B366CC",
-    "#4D8000",
-    "#B33300",
-    "#CC80CC",
-    "#66664D",
-    "#991AFF",
-    "#E666FF",
-    "#4DB3FF",
-    "#1AB399",
-    "#E666B3",
-    "#33991A",
-    "#CC9999",
-    "#B3B31A",
-    "#00E680",
-    "#4D8066",
-    "#809980",
-    "#E6FF80",
-    "#1AFF33",
-    "#999933",
-    "#FF3380",
-    "#CCCC00",
-    "#66E64D",
-    "#4D80CC",
-    "#9900B3",
-    "#E64D66",
-    "#4DB380",
-    "#FF4D4D",
-    "#99E6E6",
-    "#6666FF",
-  ];
+  const [index, setIndex] = useState(0);
+  const [color, setColor] = useState([]);
 
   useEffect(() => {
     const url = "https://type.fit/api/quotes";
-    const fetchData = async () => {
+    const fetchQuotes = async () => {
       try {
         let resp = await fetch(url);
         let jsonResp = await resp.json();
-        console.log("Data fetched correctly");
+        console.log("Sentences fetched correctly");
         setData(jsonResp);
       } catch (error) {
-        console.error("Error during fetching", error);
+        console.error("Error during fetching sentences", error);
+        throw error;
       }
     };
-    fetchData();
+
+    const fetchColors = async () => {
+      try {
+        const response = await fetch(
+          "https://random-flat-colors.vercel.app/api/random?count=49"
+        );
+        const jsonResponse = await response.json();
+        console.log("Colors fetched correctly");
+        setColor(jsonResponse.colors);
+        console.log(jsonResponse.colors);
+
+        return jsonResponse;
+      } catch (error) {
+        console.error("Error during fetching colors", error);
+        throw error;
+      }
+    };
+
+    fetchColors();
+    fetchQuotes();
   }, []);
 
   const quoteSwitcher = () => {
@@ -86,9 +55,9 @@ const RandomQuoteGenerator = () => {
 
   return (
     <div id="root">
-        <h3 style={{ fontSize: "20px", textAlign: "left" }}>
-          React prog #3: Random Quote Generator
-        </h3>
+      <h3 style={{ fontSize: "20px", textAlign: "left" }}>
+        React prog #3: Random Quote Generator
+      </h3>
       <div id="text-box">
         <blockquote className="blockquote" id="blockquote">
           <p
