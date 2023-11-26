@@ -12,15 +12,6 @@ As someone whose heart beats to the rhythm of music, I've found a new harmony in
 ## Daily Composition
 Every day, I train coding. I explore frameworks, solve algorithmic puzzles, and craft solutions that blend efficiency with elegance. My goal extends beyond finding a job; I aim to contribute meaningfully to the coding community while continually evolving as a developer.
 
-##Progs
-### 
-\#1 Calculator
-\#2 To Do List
-\#3 Random Quote Generator
-\#5 Converter
-
-
-
 ## Let's Collaborate!
 If you share my passion for the intersection of art, technology, and problem-solving, let's collaborate! Dive into the projects here, share insights, or reach out for discussions—I'm eager to connect with fellow enthusiasts, creators, and potential mentors.
 
