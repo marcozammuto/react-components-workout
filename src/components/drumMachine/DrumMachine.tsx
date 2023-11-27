@@ -135,7 +135,6 @@ const DrumMachine = () => {
   return (
     <>
       <h2 className="text-center mb-4">React prog #4: Drum Machine</h2>
-      <div className="container mt-4">
         <div id="drum-machine">
           <div id="pad-bank" className="col-md-8">
             <button
@@ -302,14 +301,69 @@ const DrumMachine = () => {
             >
               Power
             </button>
-            <button id="bank-switch" onClick={() => console.log("Cicciu Manson")}>
+            <button
+              id="bank-switch"
+              onClick={() => console.log("Cicciu Manson")}
+            >
               Bank
             </button>
             <input value={volume} id="volume" type="range" min="0" max="100" />
             <p id="display">{message}</p>
           </div>
         </div>
-      </div>
+        <div id="piano-wrap">
+          <div id="controller-wrap">
+            <div id="sound-panel">
+              <span>Volume</span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                value="0.5"
+                step="any"
+              ></input>
+            </div>
+            <label className="btn btn-secondary bg-danger">
+              <input name="sound-library" type="radio" id="" value="piano" />
+              Piano
+            </label>
+            <label className="btn btn-secondary bg-danger">
+              <input name="sound-library" type="radio" id="" value="piano" />
+              E. Piano
+            </label>
+            <label className="btn btn-secondary bg-danger">
+              <input name="sound-library" type="radio" id="" value="piano" />
+              Harpsicord
+            </label>
+            <label className="btn btn-secondary bg-danger">
+              <input name="sound-library" type="radio" id="" value="piano" />
+              Vibraphone
+            </label>
+            <label className="btn btn-secondary bg-danger">
+              <input name="sound-library" type="radio" id="" value="piano" />
+              Organ
+            </label>
+          </div>
+        <ul className="piano-keys">
+          <li className="key white" data-key="a"></li>
+          <li className="key black" data-key="w"></li>
+          <li className="key white" data-key="s"></li>
+          <li className="key black" data-key="e"></li>
+          <li className="key white" data-key="d"></li>
+          <li className="key white" data-key="f"></li>
+          <li className="key black" data-key="t"></li>
+          <li className="key white" data-key="g"></li>
+          <li className="key black" data-key="y"></li>
+          <li className="key white" data-key="h"></li>
+          <li className="key black" data-key="u"></li>
+          <li className="key white" data-key="j"></li>
+          <li className="key white" data-key="k"></li>
+          <li className="key black" data-key="o"></li>
+          <li className="key white" data-key="l"></li>
+          <li className="key black" data-key="p"></li>
+          <li className="key white" data-key=";"></li>
+        </ul>
+        </div>
     </>
   );
 };
