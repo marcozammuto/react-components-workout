@@ -7,11 +7,22 @@
 }
 
 body {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     min-height: 100vh;
+     background: #e3f2fd;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+#wrap {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: #e3f2fd;
+  flex-direction: row;
 }
 
 #drum-machine {
@@ -61,11 +72,7 @@ body {
   align-items: center;
 }
 
-a {
-  color: black;
-  text-decoration: none;
-  font-size: 0.85rem;
-}
+
 
 #volume-wrap,
 #display {
@@ -167,45 +174,18 @@ p {
   color: #888888;
 }
 
-@media screen and (max-width: 815px) {
-  .wrapper {
-    padding: 25px;
-  }
-  header {
-    flex-direction: column;
-  }
-  header :where(h2, .column) {
-    margin-bottom: 13px;
-  }
-  .volume-slider input {
-    max-width: 100px;
-  }
-  .piano-keys {
-    margin-top: 20px;
-  }
-  .piano-keys .key:where(:nth-child(9), :nth-child(10)) {
-    display: none;
-  }
-  .piano-keys .black {
-    height: 100px;
-    width: 40px;
-    margin: 0 -20px 0 -20px;
-  }
-  .piano-keys .white {
-    height: 180px;
-    width: 60px;
-  }
+#controller-wrap, #piano-sound-library {
+  text-align: center;
+     display: flex;
+     gap: 10px;
 }
 
-@media screen and (max-width: 615px) {
-  .piano-keys .key:nth-child(13),
-  .piano-keys .key:nth-child(14),
-  .piano-keys .key:nth-child(15),
-  .piano-keys .key:nth-child(16),
-  .piano-keys .key :nth-child(17) {
-    display: none;
-  }
-  .piano-keys .white {
-    width: 50px;
-  }
-}
+ #piano-volume-panel {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+
+
+ }
+
