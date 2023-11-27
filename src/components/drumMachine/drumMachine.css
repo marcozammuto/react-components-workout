@@ -1,0 +1,75 @@
+* {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+}
+
+#drum-machine {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: 5px solid orange;
+}
+
+#switch-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#pad-bank {
+  display: grid;
+  grid-template-columns: minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.drum-pad {
+  width: 80px;
+  height: 80px;
+  border-radius: 8%;
+}
+
+#power-switch,
+#bank-switch {
+  width: 160px;
+    height: 80px;
+
+}
+
+#display {
+  color: black;
+  width: 70%;
+  text-align: center;
+}
+
+#volume-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+#volume-wrap,
+#display {
+  border: 1px solid black;
+  border-radius: 7px;
+}
+
+#volume,
+#pwr-switch,
+#bank,
+.drum-pad,
+a {
+  cursor: pointer;
+}
+p {
+  font-size: 0.8rem;
+}

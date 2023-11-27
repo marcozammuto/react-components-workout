@@ -107,8 +107,6 @@ const RandomQuoteGenerator = () => {
           >
             <i className="fa-brands fas fa-bell fa-2x fa-square-tumblr"></i>
           </a>
-
-          
         </div>
       </div>
     </div>
