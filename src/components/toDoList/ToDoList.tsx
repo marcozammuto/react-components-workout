@@ -1,8 +1,10 @@
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect, SetStateAction, useRef } from "react";
 import "./toDoList.css";
 
 const ToDoList = () => {
   const colors = ["#dc3445", "#ffc107", "#198754"];
+  const bootstrapBlue = "#0c6dfd";
+  const maxWidth = 520;
 
   const [input, setInput] = useState("");
   const [taskList, setTaskList] = useState([]);
@@ -10,6 +12,7 @@ const ToDoList = () => {
   const [modifyMode, setModifyMode] = useState(false);
   const [taskToModify, setTaskToModify] = useState("");
   const [message, setMessage] = useState("Get Started!");
+  const [commentMode, setCommentMode] = useState(false);
 
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
     setInput(e.target.value);
@@ -21,6 +24,7 @@ const ToDoList = () => {
         let newTask = {
           description: input,
           status: colors[0],
+          comment: "",
         };
         setTaskList([...taskList, newTask]);
         setMessage("Task submitted");
@@ -36,6 +40,7 @@ const ToDoList = () => {
         });
         setTaskList(updatedList);
         setModifyMode(false);
+        setCommentMode(false);
         setTaskToModify("");
         setMessage("Task modified");
       }
@@ -46,9 +51,13 @@ const ToDoList = () => {
   };
 
   const clearAll = () => {
-    setTaskList([]);
     setInput("");
-    setMessage("Get started");
+    setTaskList([]);
+    setSelectedList([]);
+    setModifyMode(false);
+    setTaskToModify("");
+    setMessage("Get Started!");
+    setCommentMode(false);
   };
 
   const handleKeyPress = (e) => {
@@ -60,24 +69,28 @@ const ToDoList = () => {
   const listSwitcher = (code) => {
     let sortedList = taskList.filter((task) => task.status === code);
     setSelectedList(sortedList);
+    setCommentMode(false);
+    setModifyMode(false);
   };
+
+  const blueButtonRef = useRef(null);
 
   useEffect(() => {
     setSelectedList(taskList);
+    blueButtonRef.current.click();
   }, [taskList]);
 
   addEventListener("keydown", handleKeyPress);
 
-  const maxWidth = 520;
-
   return (
     <div id="wrap" className="bg-light">
       <div id="header">
+
         <h2>React prog #2: To do list</h2>
         <p style={{ textAlign: "right", fontSize: "0.9rem" }}>{message}</p>
       </div>
 
-      <div id="new-task-wrap" className="input-group mb-3">
+      <div id="first-line-wrap" className="input-group mb-3">
         <button
           id="submit-button"
           onClick={() => {
@@ -108,22 +121,9 @@ const ToDoList = () => {
           aria-label=""
           aria-describedby="basic-addon1"
         />
-
-        <label className="btn btn-secondary bg-primary">
-          <input
-            name="task-group"
-            type="radio"
-            id="yellow-button"
-            value="workInProgress"
-            onClick={() => {
-              listSwitcher(colors[1]);
-              setMessage("List sorted");
-              setSelectedList(taskList);
-            }}
-          />{" "}
-          All tasks
-        </label>
       </div>
+
+      <div id="second-row">
 
       <div
         id="sorting-buttons-wrap"
@@ -170,74 +170,21 @@ const ToDoList = () => {
           />{" "}
           Done
         </label>
-      </div>
-
-      <ol style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        {selectedList.map((task, index) => (
-          <div
-            key={index}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
+        <label className="btn btn-secondary bg-primary">
+          <input
+            name="task-group"
+            type="radio"
+            id="blue-button"
+            value="allTasks"
+            ref={blueButtonRef}
+            onClick={() => {
+              setMessage("List sorted");
+              setSelectedList(taskList);
             }}
-          >
-            <li style={{ width: "180px", textAlign: "left" }}>
-              {task.description}
-            </li>
-
-            <button
-              style={{ background: `${task.status}`, color: "black" }}
-              onClick={() => {
-                setTaskList((prevState) => {
-                  const updatedTaskList = [...prevState];
-                  let actualIndex = colors.findIndex(
-                    (color) => color === task.status
-                  );
-                  let newIndex = (actualIndex + 1) % colors.length;
-                  updatedTaskList[index] = {
-                    ...task,
-                    status: colors[newIndex],
-                  };
-                  return updatedTaskList;
-                });
-              }}
-            >
-              <i className="fa-solid fa-spinner"></i>
-            </button>
-            <button
-              onClick={() => {
-                if (!modifyMode) {
-                  setModifyMode(true);
-                  setInput(task.description);
-                  setTaskToModify(task.description);
-                  document.getElementById("input-field")?.focus();
-                } else {
-                  setModifyMode(false);
-                  task.description = input;
-                  setInput("");
-                  setTaskToModify("");
-                  setMessage("List modified");
-                }
-              }}
-            >
-              <i className="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button
-              onClick={() => {
-                let updatedList = taskList.filter(
-                  (item) => item.description !== task.description
-                );
-                setTaskList(updatedList);
-                setMessage("Task deleted");
-              }}
-            >
-              <i className="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        ))}
-      </ol>
-
+          />{" "}
+          All tasks
+        </label>
+      </div>
       <div id="counter-wrap">
         <div>
           <div className="me-auto">Total</div>
@@ -265,6 +212,138 @@ const ToDoList = () => {
           </span>
         </div>
       </div>
+      </div>
+
+      <ol style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {selectedList.map((task, index) => (
+          <div
+            key={index}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "20px",
+            }}
+          >
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <li style={{ width: "380px", textAlign: "left" }}>
+                {task.description}
+              </li>
+              <p
+                style={{
+                  fontSize: "0.7rem",
+                  textAlign: "right",
+                  color: bootstrapBlue,
+                }}
+              >
+                {task.comment ? task.comment : "Add a comment"}
+              </p>
+            </div>
+
+            <div id="task-buttons-wrap" style={{ display: "flex", gap: "5px" }}>
+              <button
+                style={{ background: `${task.status}`, color: "black" }}
+                onClick={() => {
+                  setTaskList((prevState) => {
+                    const updatedTaskList = [...prevState];
+                    let actualIndex = colors.findIndex(
+                      (color) => color === task.status
+                    );
+                    let newIndex = (actualIndex + 1) % colors.length;
+                    updatedTaskList[index] = {
+                      ...task,
+                      status: colors[newIndex],
+                    };
+                    return updatedTaskList;
+                  });
+                }}
+              >
+                <i className="fa-solid fa-spinner"></i>
+              </button>
+
+              <button
+                onClick={() => {
+                  if (!modifyMode) {
+                    setModifyMode(true);
+                    setInput(task.description);
+                    setTaskToModify(task.description);
+                    document.getElementById("input-field")?.focus();
+                  } else {
+                    setModifyMode(false);
+                    task.description = input;
+                    setTaskToModify("");
+                    setMessage("List modified");
+                  }
+                }}
+              >
+                <i className="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button
+                onClick={() => {
+                  if (!task.comment) {
+                    if (!commentMode) {
+                      setModifyMode(false);
+                      setTaskToModify("");
+                      setCommentMode(true);
+                      document.getElementById("input-field")?.focus();
+                    } else {
+                      console.log("Comment mode set to false");
+                      task.comment = input;
+                      setCommentMode(false);
+                      setModifyMode(false);
+                      setTaskToModify("");
+                      setInput("");
+                    }
+                  } else {
+                    if (task.comment && !commentMode) {
+                      setInput(task.comment);
+                      document.getElementById("input-field")?.focus();
+                      setCommentMode(true);
+                    } else {
+                      task.comment = input;
+                      setCommentMode(false);
+                      setModifyMode(false);
+                      setTaskToModify("");
+                      setInput("");
+                      setMessage("Comment modified");
+                    }
+                  }
+                }}
+              >
+                <i
+                  className="fa-regular fa-comment"
+                  style={{ color: commentMode && bootstrapBlue }}
+                ></i>
+              </button>
+              <button
+                onClick={() => {
+                  if (!commentMode) {
+                    let updatedList = taskList.filter(
+                      (item) => item.description !== task.description
+                    );
+                    setTaskList(updatedList);
+                    setMessage("Task deleted");
+                  } else {
+                    task.comment = "";
+                    setModifyMode(false);
+                    setTaskToModify("");
+                    setMessage("Comment deleted");
+                    setCommentMode(false);
+                    setInput("");
+                  }
+                }}
+              >
+                <i
+                  className="fa-solid fa-trash"
+                  style={{ color: commentMode && bootstrapBlue }}
+                ></i>
+              </button>
+            </div>
+          </div>
+        ))}
+      </ol>
     </div>
   );
 };
