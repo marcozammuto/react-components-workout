@@ -1,6 +1,6 @@
 import Calculator from "./calculator/Calculator";
 import ToDoList from "./toDoList/ToDoList";
 import RandomQuoteGenerator from "./randomQuoteGenerator/RandomQuoteGenerator";
-import DrumMachine from "./drumMachine/DrumMachine";
+import Keyboard from "./keyboard/Keyboard";
 
-export { Calculator, ToDoList, RandomQuoteGenerator, DrumMachine };
+export { Calculator, ToDoList, RandomQuoteGenerator, Keyboard };

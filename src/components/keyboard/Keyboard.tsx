@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "./drumMachine.css";
+import "./keyboard.css";
 
-const DrumMachine = () => {
+const Keyboard = () => {
   const [power, setPower] = useState(false);
   const soundLibrary = [
     {
@@ -134,26 +134,27 @@ const DrumMachine = () => {
 
   return (
     <>
-      <h2 className="text-center mb-4">React prog #4: Drum Machine</h2>
       <div id="wrap">
-        <div>
+        <h2 className="text-center mb-4">
+          React prog #5: Keyboard + Drum Machine
+        </h2>
 
-
-
-          <div>
+        <div id="command-wrap">
+          <div id="first-command-column-wrap">
+            {/*power button*/}
             <button
               id="power-switch"
+              style={{ color: power ? "red" : "white" }}
               onClick={() => {
                 setPower(!power);
                 power ? setMessage("OFF") : setMessage("ON");
               }}
             >
-              Power
+              <i class="fa-solid fa-power-off"></i>
             </button>
-
-            <div>
-              <span>Volume</span>
-
+            {/*volume wrap*/}
+            <div id="volume-wrap">
+              <p>Volume</p>
               <input
                 type="range"
                 min="0"
@@ -162,41 +163,10 @@ const DrumMachine = () => {
                 step="any"
               ></input>
             </div>
-
-            <input
-              className="drum-pad btn btn-secondary"
-              name="sound-library"
-              type="button"
-              value="Piano"
-            />
-
-            <input
-              className="drum-pad btn btn-secondary"
-              name="sound-library"
-              type="button"
-              value="El.Piano"
-            />
-            <input
-              className="drum-pad btn btn-secondary"
-              name="sound-library"
-              type="button"
-              value="Vibe"
-            />
-            <input
-              className="drum-pad btn btn-secondary"
-              name="sound-library"
-              type="button"
-              value="Organ"
-            />
-            <input
-              className="drum-pad btn btn-secondary"
-              name="sound-library"
-              type="button"
-              value="Harpsichord"
-            />
           </div>
 
-          <div className="col-md-8">
+          {/*pad bank wrap*/}
+          <div id="second-command-column-wrap">
             <button
               disabled={!power}
               className="drum-pad"
@@ -207,7 +177,7 @@ const DrumMachine = () => {
                 setMessage(buttonName[0]);
               }}
             >
-              Q
+              1
               <audio
                 src="https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3"
                 className="clip"
@@ -224,7 +194,7 @@ const DrumMachine = () => {
                 playSound(1);
               }}
             >
-              W
+              2
               <audio
                 src="https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3"
                 className="clip"
@@ -241,7 +211,7 @@ const DrumMachine = () => {
                 playSound(2);
               }}
             >
-              E
+              3
               <audio
                 src="https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3"
                 className="clip"
@@ -258,7 +228,7 @@ const DrumMachine = () => {
                 playSound(3);
               }}
             >
-              A
+              4
               <audio
                 src="https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3"
                 className="clip"
@@ -275,7 +245,7 @@ const DrumMachine = () => {
                 playSound(4);
               }}
             >
-              S
+              5
               <audio
                 src="https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3"
                 className="clip"
@@ -292,7 +262,7 @@ const DrumMachine = () => {
                 playSound(5);
               }}
             >
-              D
+              6
               <audio
                 src="https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3"
                 className="clip"
@@ -309,7 +279,7 @@ const DrumMachine = () => {
                 playSound(6);
               }}
             >
-              Z
+              7
               <audio
                 src="https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3"
                 className="clip"
@@ -326,34 +296,59 @@ const DrumMachine = () => {
                 playSound(7);
               }}
             >
-              X
+              8
               <audio
                 src="https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3"
                 className="clip"
                 id="X"
               ></audio>
             </button>
-
-            <button
-              disabled={!power}
-              className="drum-pad"
-              id="c-button"
-              onClick={() => {
-                document.getElementById("C").play();
-                playSound(8);
-              }}
-            >
-              C
-              <audio
-                src="https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3"
-                className="clip"
-                id="C"
-              ></audio>
-            </button>
           </div>
-        </div>
 
-        <div>
+          {/*piano library wrap*/}
+
+          <div id="third-command-column-wrap">
+            <div id="message-wrap">
+              <p>{message}</p>
+              <div></div>
+            </div>
+            <div id="sound-library-wrap">
+              <input
+                className="drum-pad btn btn-secondary"
+                name="sound-library"
+                type="button"
+                value="Piano"
+              />
+              <input
+                className="drum-pad btn btn-secondary"
+                name="sound-library"
+                type="button"
+                value="El.Piano"
+              />
+              <input
+                className="drum-pad btn btn-secondary"
+                name="sound-library"
+                type="button"
+                value="Vibe"
+              />
+              <input
+                className="drum-pad btn btn-secondary"
+                name="sound-library"
+                type="button"
+                value="Organ"
+              />
+              <input
+                className="drum-pad btn btn-secondary"
+                name="sound-library"
+                type="button"
+                value="Harpsichord"
+              />
+            </div>
+          </div>
+          {/*end of the first line*/}
+        </div>
+        {/*piano keys*/}
+        <div id="piano-wrap">
           <ul className="piano-keys">
             <li className="key white" data-key="a"></li>
             <li className="key black" data-key="w"></li>
@@ -367,38 +362,23 @@ const DrumMachine = () => {
             <li className="key white" data-key="h"></li>
             <li className="key black" data-key="u"></li>
             <li className="key white" data-key="j"></li>
-            <li className="key white" data-key="a"></li>
-            <li className="key black" data-key="w"></li>
-            <li className="key white" data-key="s"></li>
-            <li className="key black" data-key="e"></li>
-            <li className="key white" data-key="d"></li>
-            <li className="key white" data-key="f"></li>
-            <li className="key black" data-key="t"></li>
-            <li className="key white" data-key="g"></li>
-            <li className="key black" data-key="y"></li>
-            <li className="key white" data-key="h"></li>
-            <li className="key black" data-key="u"></li>
-            <li className="key white" data-key="j"></li>
-            <li className="key white" data-key="a"></li>
-            <li className="key black" data-key="w"></li>
-            <li className="key white" data-key="s"></li>
-            <li className="key black" data-key="e"></li>
-            <li className="key white" data-key="d"></li>
-            <li className="key white" data-key="f"></li>
-            <li className="key black" data-key="t"></li>
-            <li className="key white" data-key="g"></li>
-            <li className="key black" data-key="y"></li>
-            <li className="key white" data-key="h"></li>
-            <li className="key black" data-key="u"></li>
-            <li className="key white" data-key="j"></li>
-            <li className="key white" data-key="a"></li>
+            <li className="key white" data-key="A"></li>
+            <li className="key black" data-key="W"></li>
+            <li className="key white" data-key="S"></li>
+            <li className="key black" data-key="E"></li>
+            <li className="key white" data-key="D"></li>
+            <li className="key white" data-key="F"></li>
+            <li className="key black" data-key="T"></li>
+            <li className="key white" data-key="G"></li>
+            <li className="key black" data-key="Y"></li>
+            <li className="key white" data-key="H"></li>
+            <li className="key black" data-key="U"></li>
+            <li className="key white" data-key="J"></li>
           </ul>
         </div>
-
-     
       </div>
     </>
   );
 };
 
-export default DrumMachine;
+export default Keyboard;

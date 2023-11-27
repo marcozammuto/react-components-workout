@@ -1,68 +1,39 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 * {
-  margin: 0;
-  padding: 0;
+  margin: auto;
+  padding: auto;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
 
 body {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     min-height: 100vh;
-     background: #e3f2fd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-a {
-  color: black;
-  text-decoration: none;
-  font-size: 0.85rem;
+p {
+  font-size: 0.8rem;
 }
 
 #wrap {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-#drum-machine {
-  padding: 20px;
+/* Commands */
+
+#command-wrap {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  outline: 5px solid orange;
+  gap: 20px;
+  width: 60vw;
 }
 
-#switch-wrap {
+#first-command-column-wrap {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-}
-
-#pad-bank {
-  display: grid;
-  grid-template-columns: minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.drum-pad {
-  width: 80px;
-  height: 80px;
-  border-radius: 8%;
-}
-
-#power-switch,
-#bank-switch {
-  width: 160px;
-  height: 80px;
-}
-
-#display {
-  color: black;
-  width: 70%;
-  text-align: center;
+  align-items: center;
 }
 
 #volume-wrap {
@@ -72,34 +43,38 @@ a {
   align-items: center;
 }
 
-
-
-#volume-wrap,
-#display {
-  border: 1px solid black;
-  border-radius: 7px;
+#second-command-column-wrap {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 5px;
 }
 
-#volume,
-#pwr-switch,
-#bank,
-.drum-pad,
-a {
+.drum-pad {
+  width: 80px;
+  height: 80px;
+  border-radius: 8%;
   cursor: pointer;
 }
-p {
-  font-size: 0.8rem;
+
+#third-command-column-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.wrapper {
-  padding: 35px 40px;
-  border-radius: 20px;
-  background: #141414;
+#message-wrap {
+  display: flex;
+  width: 70%;
+  text-align: center;
+  color: #000;
 }
 
-.volume-slider input {
-  accent-color: #fff;
+#sound-library-wrap {
+  display: flex;
+  gap: 5px;
 }
+
 .keys-checkbox input {
   height: 30px;
   width: 60px;
@@ -173,19 +148,3 @@ p {
   bottom: 13px;
   color: #888888;
 }
-
-#controller-wrap, #piano-sound-library {
-  text-align: center;
-     display: flex;
-     gap: 10px;
-}
-
- #piano-volume-panel {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-
-
- }
-
