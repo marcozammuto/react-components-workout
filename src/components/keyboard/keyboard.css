@@ -6,24 +6,24 @@
   font-family: "Poppins", sans-serif;
 }
 
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 p {
   font-size: 0.8rem;
 }
 
 #wrap {
+  width: 1080px;
+  border: 1px solid black;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Commands */
 
 #command-wrap {
+  width: auto;
+  height: auto;
   display: flex;
   gap: 20px;
   width: 60vw;
@@ -60,7 +60,22 @@ p {
 #third-command-column-wrap {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+}
+
+#display-wrap {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  color: red;
+
+}
+.piano-pad {
+  width: 65px;
+  height: 40px;
+  border-radius: 8%;
+  cursor: pointer;
+  text-align: center;
+  font-size: small;
 }
 
 #message-wrap {

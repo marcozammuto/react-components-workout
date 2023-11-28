@@ -42,12 +42,14 @@ const Keyboard = () => {
     },
   ];
   const [message, setMessage] = useState("Turn me ON!");
+  const [played, setPlayed] = useState("A");
   const [volume, setVolume] = useState(0);
+  const [keyboard, setKeyboard] = useState("pf");
 
   const playSound = (index) => {
     const audio = new Audio(soundLibrary[index].link);
     audio.play();
-    setMessage(soundLibrary[index].inst);
+    setPlayed(soundLibrary[index].inst);
   };
 
   const handleKeyPress = (event) => {
@@ -134,11 +136,10 @@ const Keyboard = () => {
 
   return (
     <>
+      <h2 className="text-center mb-4">
+        React prog #5: Keyboard + Drum Machine
+      </h2>
       <div id="wrap">
-        <h2 className="text-center mb-4">
-          React prog #5: Keyboard + Drum Machine
-        </h2>
-
         <div id="command-wrap">
           <div id="first-command-column-wrap">
             {/*power button*/}
@@ -156,11 +157,12 @@ const Keyboard = () => {
             <div id="volume-wrap">
               <p>Volume</p>
               <input
+                id="volume"
                 type="range"
                 min="0"
                 max="1"
-                value="0.5"
                 step="any"
+                onChange={null}
               ></input>
             </div>
           </div>
@@ -174,7 +176,7 @@ const Keyboard = () => {
               onClick={() => {
                 document.getElementById("Q").play();
                 playSound(0);
-                setMessage(buttonName[0]);
+                setPlayed(buttonName[0]);
               }}
             >
               1
@@ -308,40 +310,50 @@ const Keyboard = () => {
           {/*piano library wrap*/}
 
           <div id="third-command-column-wrap">
-            <div id="message-wrap">
+            <div id="display-wrap">
               <p>{message}</p>
-              <div></div>
+              <p>{played}</p>
             </div>
             <div id="sound-library-wrap">
               <input
-                className="drum-pad btn btn-secondary"
+                className="piano-pad"
                 name="sound-library"
                 type="button"
                 value="Piano"
+                onClick={() => setKeyboard("pf")}
+                style={{ color: keyboard === "pf" ? "red" : null }}
               />
               <input
-                className="drum-pad btn btn-secondary"
+                className="piano-pad"
                 name="sound-library"
                 type="button"
                 value="El.Piano"
+                onClick={() => setKeyboard("epf")}
+                style={{ color: keyboard === "epf" ? "red" : null }}
               />
               <input
-                className="drum-pad btn btn-secondary"
+                className="piano-pad"
                 name="sound-library"
                 type="button"
                 value="Vibe"
+                onClick={() => setKeyboard("vib")}
+                style={{ color: keyboard === "vib" ? "red" : null }}
               />
               <input
-                className="drum-pad btn btn-secondary"
+                className="piano-pad"
                 name="sound-library"
                 type="button"
                 value="Organ"
+                onClick={() => setKeyboard("org")}
+                style={{ color: keyboard === "org" ? "red" : null }}
               />
               <input
-                className="drum-pad btn btn-secondary"
+                className="piano-pad"
                 name="sound-library"
                 type="button"
                 value="Harpsichord"
+                onClick={() => setKeyboard("harp")}
+                style={{ color: keyboard === "harp" ? "red" : null }}
               />
             </div>
           </div>
@@ -349,6 +361,7 @@ const Keyboard = () => {
         </div>
         {/*piano keys*/}
         <div id="piano-wrap">
+          <input type="range"></input>
           <ul className="piano-keys">
             <li className="key white" data-key="a"></li>
             <li className="key black" data-key="w"></li>
