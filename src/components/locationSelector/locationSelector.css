@@ -1,0 +1,33 @@
+body {
+  background-color: #e0e0e2;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+}
+
+.section {
+  flex: 1;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+p {
+  margin: 5px 0;
+}
+
+select {
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+select[multiple] {
+  height: 100px;
+}

@@ -1,6 +1,5 @@
-import { count } from "d3";
 import { useState, useEffect } from "react";
-import { displayPartsToString } from "typescript";
+import "./locationSelector.css";
 
 const Mondo = () => {
   const [limit, setLimit] = useState(4);
@@ -15,7 +14,6 @@ const Mondo = () => {
     Europe: {
       name: "Europe",
       countries: [
-        "Country",
         "Albania",
         "Austria",
         "Belgium",
@@ -192,7 +190,6 @@ const Mondo = () => {
                     "Clusone",
                     "Cologno al Serio",
                     "Grumello del Monte",
-                    // Potresti aggiungere altri comuni di Bergamo
                   ],
                 },
                 brescia: {
@@ -208,7 +205,6 @@ const Mondo = () => {
                     "Manerbio",
                     "Poncarale",
                     "Rezzato",
-                    // Potresti aggiungere altri comuni di Brescia
                   ],
                 },
                 milano: {
@@ -224,7 +220,6 @@ const Mondo = () => {
                     "Sesto San Giovanni",
                     "Rho",
                     "Corsico",
-                    // Potresti aggiungere altri comuni di Milano
                   ],
                 },
                 cremona: {
@@ -240,7 +235,6 @@ const Mondo = () => {
                     "Offanengo",
                     "Castelleone",
                     "Vailate",
-                    // Potresti aggiungere altri comuni di Cremona
                   ],
                 },
                 como: {
@@ -256,7 +250,6 @@ const Mondo = () => {
                     "Alzate Brianza",
                     "Fino Mornasco",
                     "Lurate Caccivio",
-                    // Potresti aggiungere altri comuni di Como
                   ],
                 },
                 lecco: {
@@ -272,7 +265,6 @@ const Mondo = () => {
                     "Missaglia",
                     "Galbiate",
                     "Mandello del Lario",
-                    // Potresti aggiungere altri comuni di Lecco
                   ],
                 },
                 mantova: {
@@ -288,7 +280,6 @@ const Mondo = () => {
                     "Viadana",
                     "Ostiglia",
                     "Pegognaga",
-                    // Potresti aggiungere altri comuni di Mantova
                   ],
                 },
                 sondrio: {
@@ -304,7 +295,6 @@ const Mondo = () => {
                     "Grosio",
                     "Talamona",
                     "Lovero",
-                    // Potresti aggiungere altri comuni di Sondrio
                   ],
                 },
                 varese: {
@@ -320,7 +310,6 @@ const Mondo = () => {
                     "Venegono Inferiore",
                     "Barasso",
                     "Somma Lombardo",
-                    // Potresti aggiungere altri comuni di Varese
                   ],
                 },
                 pavia: {
@@ -336,10 +325,8 @@ const Mondo = () => {
                     "Cassolnovo",
                     "Certosa di Pavia",
                     "Garlasco",
-                    // Potresti aggiungere altri comuni di Pavia
                   ],
                 },
-                // Potresti continuare ad aggiungere altre province con comuni
               },
             },
             Veneto: {
@@ -358,7 +345,6 @@ const Mondo = () => {
                     "Legnago",
                     "Villafranca di Verona",
                     "Negrar",
-                    // Potresti aggiungere altri comuni di Verona
                   ],
                 },
                 Venezia: {
@@ -374,7 +360,6 @@ const Mondo = () => {
                     "Scorzè",
                     "Dolo",
                     "Quarto d'Altino",
-                    // Potresti aggiungere altri comuni di Venezia
                   ],
                 },
                 Padova: {
@@ -390,7 +375,6 @@ const Mondo = () => {
                     "Rubano",
                     "Cadoneghe",
                     "Bovolenta",
-                    // Potresti aggiungere altri comuni di Padova
                   ],
                 },
                 Treviso: {
@@ -409,7 +393,6 @@ const Mondo = () => {
                     // Potresti aggiungere altri comuni di Treviso
                   ],
                 },
-                // Potresti continuare ad aggiungere altre province con comuni
               },
             },
             Emilia_Romagna: {
@@ -475,10 +458,8 @@ const Mondo = () => {
                     "Nonantola",
                   ],
                 },
-                // Potresti continuare ad aggiungere altre province con comuni
               },
             },
-            // Potresti continuare ad aggiungere altre regioni con province e comuni
           },
         },
       },
@@ -501,36 +482,94 @@ const Mondo = () => {
     setProvince(e.target.value);
   };
 
-  const handleCityChange = (e) => {
-    setCity(e.target.value);
+  const handleLimitChange = (value) => {
+    value === "+"
+      ? setLimit(limit + 1)
+      : value === "-"
+      ? setLimit(limit - 1)
+      : null;
   };
+
+  function isBottomReached() {
+    return (
+      window.innerHeight + window.pageYOffset >= document.body.offsetHeight
+    );
+  }
+
+  function handleScroll() {
+    if (isBottomReached()) {
+      console.log("Hai raggiunto il fondo della pagina!");
+    }
+  }
+
+  window.addEventListener("scroll", handleScroll);
 
   return (
     <div style={{ display: "flex", gap: "100px" }}>
       <section>
-        <p>World Selector</p>
         <p>Limit: {limit}</p>
         <p>Continent : {continent}</p>
         <p>Country : {country}</p>
         <p>Region : {region}</p>
         <p>Province : {province}</p>
-        <p>City : {city}</p>
+        <div>
+          {province ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <p>Cities :</p>
+              <ol>
+                {italianArr.Europe.countries.italy.regions[region].provinces[
+                  province
+                ].cities
+                  .map((city) => <li>{city}</li>)
+                  .slice(0, limit)}
+              </ol>
+              <div style={{ display: "flex", gap: "30px" }}>
+                <button
+                  className="btn"
+                  style={{ background: "black", color: "white" }}
+                  onClick={() => handleLimitChange("+")}
+                >
+                  Show more
+                </button>
+                <button
+                  className="btn"
+                  style={{ background: "black", color: "white" }}
+                  onClick={() => handleLimitChange("-")}
+                >
+                  Show less
+                </button>
+              </div>
+            </div>
+          ) : null}
+        </div>
       </section>
 
-      <form style={{ display: "flex", flexDirection: "column", width:"200px"}}>
+      <form
+        style={{ display: "flex", flexDirection: "column", width: "200px" }}
+      >
         <select onChange={handleContinentChange}>
-          <option disabled selected>
-            Select a Continent
+          <option disabled selected value={"Country"}>
+            Continent
           </option>
           {Object.keys(world).map((continent, idx) => (
-            <option key={idx}>{continent}</option>
+            <option key={idx} value={continent.name}>
+              {continent}
+            </option>
           ))}
         </select>
 
         {continent ? (
           <>
-            <p>Country</p>
             <select onChange={handleCountryChange}>
+              <option disabled selected value={"Country"}>
+                Country
+              </option>
               {world[continent].countries.map((country, idx) => (
                 <option key={idx}>{country}</option>
               ))}
@@ -540,8 +579,10 @@ const Mondo = () => {
 
         {country ? (
           <>
-            <p>Region</p>
             <select onChange={handleRegionChange}>
+              <option disabled selected value={"Region"}>
+                Region
+              </option>
               {country === "Italy"
                 ? Object.keys(
                     italianArr[continent].countries.italy.regions
@@ -553,8 +594,7 @@ const Mondo = () => {
 
         {region ? (
           <>
-            <p>Province</p>
-            <select onChange={handleProvinceChange}>
+            <select onChange={() => {handleProvinceChange, setLimit(4)}}>
               {Object.keys(
                 italianArr[continent].countries.italy.regions[region].provinces
               ).map((province, idx) => (
@@ -564,7 +604,7 @@ const Mondo = () => {
           </>
         ) : null}
 
-        {province ? (
+        {/* {province ? (
           <>
             <p>City</p>
             <select onChange={handleCityChange}>
@@ -575,10 +615,12 @@ const Mondo = () => {
               ))}
             </select>
           </>
-        ) : null}
+        ) : null} */}
       </form>
     </div>
   );
 };
 
 export default Mondo;
+
+// Warning: Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>.
