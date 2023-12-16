@@ -34,6 +34,7 @@ const Mondo = () => {
         "Lithuania",
         "Luxembourg",
         "Malta",
+        "Moldova",
         "Netherlands",
         "Poland",
         "Portugal",
@@ -484,7 +485,7 @@ const Mondo = () => {
 
   const handleLimitChange = (value) => {
     value === "+"
-      ? setLimit(limit + 1)
+      ? setLimit(limit + 2)
       : value === "-"
       ? setLimit(limit - 1)
       : null;
@@ -503,6 +504,24 @@ const Mondo = () => {
   }
 
   window.addEventListener("scroll", handleScroll);
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      e = e || window.event;
+      var target = e.target || e.srcElement,
+        text = target.textContent || target.innerText;
+        console.log(text);
+    },
+    false
+  );
+
+  // aggiungi form nome cognome, tasto invia, 
+  // il tasto invia c'è ma è disabilitato fino al completamento
+  // di tutti i campi
+  // call to action registrati
+  // i dati vanno inseriti in una tabella sul server
+  // 
 
   return (
     <div style={{ display: "flex", gap: "100px" }}>
@@ -526,7 +545,7 @@ const Mondo = () => {
                 {italianArr.Europe.countries.italy.regions[region].provinces[
                   province
                 ].cities
-                  .map((city) => <li>{city}</li>)
+                  .map((city, idx) => <li key={city}>{city}</li>)
                   .slice(0, limit)}
               </ol>
               <div style={{ display: "flex", gap: "30px" }}>
@@ -594,7 +613,7 @@ const Mondo = () => {
 
         {region ? (
           <>
-            <select onChange={() => {handleProvinceChange, setLimit(4)}}>
+            <select onChange={handleProvinceChange}>
               {Object.keys(
                 italianArr[continent].countries.italy.regions[region].provinces
               ).map((province, idx) => (
