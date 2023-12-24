@@ -1,0 +1,75 @@
+/* General reset */
+:root {
+  --background-color: #1f555c;
+  --hover-color: #144042;
+}
+
+#wrap {
+  display: flex;
+  font-family: "Roboto", sans-serif;
+  color: white;
+  background-color: var(--background-color);
+  text-decoration: none;
+  text-align: center;
+  gap: 7.5px;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+/* Break and session commands */
+
+#buttons-wrap{
+     display: flex;
+     flex-direction: row;
+}
+
+#timer-label,
+#buttons-wrap {
+  border: 2.5px solid white;
+  border-radius: 8%;
+  border-left: 5px;
+  border-right: 5px;
+}
+#session-commands,
+#break-commands {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+/* This is a single-line comment */
+
+#timer-label {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 50px;
+}
+
+#message-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#start-stop-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-evenly;
+  gap: 30px;
+}
+
+#timer-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
